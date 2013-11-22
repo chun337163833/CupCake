@@ -10,7 +10,7 @@
 //#import "CupcakeView.h"
 //#import "CupcakesAndGoodThings.h"
 #import "cocos2d.h"
-#import "HelloWorldLayer.h"
+#import "GameLayer.h"
 #import "CupcakeView.h"
 
 @interface ViewController  : UIViewController <CCDirectorDelegate>{

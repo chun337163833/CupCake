@@ -255,7 +255,7 @@
  2 -- draw texture box
  */
 #ifndef CC_SPRITE_DEBUG_DRAW
-#define CC_SPRITE_DEBUG_DRAW 0
+#define CC_SPRITE_DEBUG_DRAW 1
 #endif
 
 
@@ -276,7 +276,7 @@
  To enable set it to a value different than 0. Disabled by default.
  */
 #ifndef CC_LABELATLAS_DEBUG_DRAW
-#define CC_LABELATLAS_DEBUG_DRAW 0
+#define CC_LABELATLAS_DEBUG_DRAW 1
 #endif
 
 /** @def CC_ENABLE_PROFILERS

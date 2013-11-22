@@ -27,7 +27,7 @@ static id instance = nil;
 
 -(void)setDefaultValues{
     self.costOfFactory =-1000;
-    self.costOfClicker =-15;
+    self.costOfClicker =-1;
     self.costOfGrandma =-300;
     self.costOfGirlScout =-75;
     self.costOfNinja =-500;
@@ -155,7 +155,7 @@ static id instance = nil;
    // float timeTaken = (float)10/(float)self.clickers;
     
     self.clickerTimer = [NSTimer scheduledTimerWithTimeInterval:(float)(10.0f/(float)self.clickers) target:self selector:@selector(clickerMadeCupcakes) userInfo:nil repeats:YES] ;
-    self.costOfClicker -= 5;
+//    self.costOfClicker -= 5;
      [self.costArray replaceObjectAtIndex:clicker withObject:[NSNumber numberWithInt:self.costOfClicker]];
     NSLog(@"cost of clicker %d", [(NSNumber *)self.costArray[0] intValue]);
     self.increaseOfClicker = 1 + (self.clickers /5);

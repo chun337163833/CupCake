@@ -59,9 +59,9 @@
     
     // Run whatever scene we'd like to run here.
     if(director.runningScene)
-        [director replaceScene:[HelloWorldLayer scene]];
+        [director replaceScene:[GameLayer scene]];
     else
-        [director runWithScene:[HelloWorldLayer scene]];
+        [director runWithScene:[GameLayer scene]];
     
     
 //    [CupcakesAndGoodThings initialize];

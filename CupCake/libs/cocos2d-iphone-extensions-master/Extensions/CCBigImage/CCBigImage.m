@@ -92,7 +92,7 @@
 -(void) visit
 {
 	// quick return if not visible
-	if (!visible_)
+	if (!_visible)
 		return;
 	
 #if COCOS2D_VERSION >= 0x00020000
@@ -199,7 +199,7 @@
 
 - (void) setDynamicMode:(BOOL) dynamicMode
 {
-	if (isRunning_)
+	if (_isRunning)
 	{
 		// turning off dynamic mode
 		if ( _dynamicMode && !dynamicMode) 

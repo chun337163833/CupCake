@@ -150,20 +150,20 @@
 
 - (void) selectNextMenuItem
 {
-	if ([children_ count] < 2)
+	if ([_children count] < 2)
 		return;
 	
 	selectedItemNumber_++;
 	
 	// borders
-	if (selectedItemNumber_ >= (int)[children_ count])
+	if (selectedItemNumber_ >= (int)[_children count])
 		selectedItemNumber_ = 0;
 	if (selectedItemNumber_ < 0)
-		selectedItemNumber_ = [children_ count] - 1;
+		selectedItemNumber_ = [_children count] - 1;
 	
 	// select selected
 	int i = 0;
-	for (CCMenuItem *item in children_)
+	for (CCMenuItem *item in _children)
 	{
 		[item unselected];
 		if ( i == selectedItemNumber_ )
@@ -174,20 +174,20 @@
 
 - (void) selectPrevMenuItem
 {
-	if ([children_ count] < 2)
+	if ([_children count] < 2)
 		return;
 	
 	selectedItemNumber_--;
 	
 	// borders
-	if (selectedItemNumber_ >= (int)[children_ count])
+	if (selectedItemNumber_ >= (int)[_children count])
 		selectedItemNumber_ = 0;
 	if (selectedItemNumber_ < 0)
-		selectedItemNumber_ = [children_ count] - 1;
+		selectedItemNumber_ = [_children count] - 1;
 	
 	// select selected
 	int i = 0;
-	for (CCMenuItem *item in children_)
+	for (CCMenuItem *item in _children)
 	{
 		if ( i == selectedItemNumber_ )
 			[item selected];
@@ -204,7 +204,7 @@
 		return;
 	
 	// Unselect selected menu item.
-	CCMenuItem *item = [children_ objectAtIndex: selectedItemNumber_];
+	CCMenuItem *item = [_children objectAtIndex: selectedItemNumber_];
 	[item unselected];
 	selectedItemNumber_ = -1;
 	
@@ -214,14 +214,14 @@
 
 - (void) cancelSelectedItem
 {
-	if( selectedItem_ ) {
-		[selectedItem_ unselected];
-		selectedItem_ = nil;
+	if( _selectedItem ) {
+		[_selectedItem unselected];
+		_selectedItem = nil;
 	}
 	
 	selectedItemNumber_ = -1;
 
-	state_ = kCCMenuStateWaiting;
+	_state = kCCMenuStateWaiting;
 }
 
 #pragma mark Advanced Menu - Alignment
@@ -237,7 +237,7 @@
 	
 	// calculate and set contentSize,
 	CCMenuItem *item = nil;
-	CCARRAY_FOREACH(children_, item)
+	CCARRAY_FOREACH(_children, item)
 	{
         if (item)
         {
@@ -252,7 +252,7 @@
 	if (! bottomToTop)
 		y = height;
 	
-	CCARRAY_FOREACH(children_, item) 
+	CCARRAY_FOREACH(_children, item)
     {
         if (item)
         {
@@ -270,8 +270,8 @@
 	}
 	
 	// Fix position of menuItem if it's the only one.
-	if ([children_ count] == 1)
-		[[children_ objectAtIndex: 0] setPosition: ccp(width / 2.0f, height / 2.0f ) ];
+//	if ([c_childrencount] == 1)
+//		[[_children objectAtIndex: 0] setPosition: ccp(width / 2.0f, height / 2.0f ) ];
 	
 #ifdef __MAC_OS_X_VERSION_MAX_ALLOWED
 	if (bottomToTop)
@@ -300,7 +300,7 @@
 	
 	// calculate and set content size
 	CCMenuItem *item;
-	CCARRAY_FOREACH(children_, item)
+	CCARRAY_FOREACH(_children, item)
 	{
         if (item)
         {
@@ -315,7 +315,7 @@
 		x = width;
 	
 	// align items
-	CCARRAY_FOREACH(children_, item)
+	CCARRAY_FOREACH(_children, item)
 	{
         if (item)
         {
@@ -534,22 +534,22 @@
 
 -(BOOL) ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
 {	
-	if( state_ != kCCMenuStateWaiting || !visible_ || self.isDisabled )
+	if( _state != kCCMenuStateWaiting || !_visible || self.isDisabled )
 		return NO;
 	
 	curTouchLength_ = 0; //< every new touch should reset previous touch length
 	
-	selectedItem_ = [self itemForTouch:touch];
-	[selectedItem_ selected];
+	_selectedItem = [self itemForTouch:touch];
+	[_selectedItem selected];
 	
-	if( selectedItem_ ) {
-		state_ = kCCMenuStateTrackingTouch;
+	if( _selectedItem ) {
+		_state = kCCMenuStateTrackingTouch;
 		return YES;
 	}
 	
 	// start slide even if touch began outside of menuitems, but inside menu rect
 	if ( !CGRectIsNull(boundaryRect_) && [self isTouchForMe: touch] ){
-		state_ = kCCMenuStateTrackingTouch;
+		_state = kCCMenuStateTrackingTouch;
 		return YES;
 	}
 	
@@ -558,33 +558,33 @@
 
 -(void) ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
 {
-	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchEnded] -- invalid state");
+//	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchEnded] -- invalid state");
 	
-	[selectedItem_ unselected];
-	[selectedItem_ activate];
+	[_selectedItem unselected];
+	[_selectedItem activate];
 	
-	state_ = kCCMenuStateWaiting;
+	_state = kCCMenuStateWaiting;
 }
 
 -(void) ccTouchCancelled:(UITouch *)touch withEvent:(UIEvent *)event
 {
-	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchCancelled] -- invalid state");
+//	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchCancelled] -- invalid state");
 	
-	[selectedItem_ unselected];
+	[_selectedItem unselected];
 	
-	state_ = kCCMenuStateWaiting;
+	_state = kCCMenuStateWaiting;
 }
 
 -(void) ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
 {
-	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchMoved] -- invalid state");
+//	NSAssert(state_ == kCCMenuStateTrackingTouch, @"[Menu ccTouchMoved] -- invalid state");
 	
 	CCMenuItem *currentItem = [self itemForTouch:touch];
 	
-	if (currentItem != selectedItem_) {
-		[selectedItem_ unselected];
-		selectedItem_ = currentItem;
-		[selectedItem_ selected];
+	if (currentItem != _selectedItem) {
+		[_selectedItem unselected];
+		_selectedItem = currentItem;
+		[_selectedItem selected];
 	}
 	
 	// scrolling is allowed only with non-zero boundaryRect
@@ -601,8 +601,8 @@
 		
 		if (curTouchLength_ >= self.minimumTouchLengthToSlide)
 		{
-			[selectedItem_ unselected];
-			selectedItem_ = nil;
+			[_selectedItem unselected];
+			_selectedItem = nil;
 			
 			// add delta
 			CGPoint newPosition = ccpAdd(self.position, delta );	

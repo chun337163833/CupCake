@@ -27,7 +27,7 @@
  */
 
 #import "CCMenuItemSpriteIndependent.h"
-
+#import <MobileCoreServices/MobileCoreServices.h>
 @implementation CCMenuItemSpriteIndependent
 
 
@@ -35,53 +35,54 @@
 // contentSize_ is set in init with normalImage_ content size
 -(CGRect) rect
 {
-	return CGRectMake( 0, 0, normalImage_.contentSize.width, normalImage_.contentSize.height );	
+	return CGRectMake( 0, 0, _normalImage.contentSize.width, _normalImage.contentSize.height );
 }
 
 // delegates point conversion to normalImage_
 - (CGPoint)convertToNodeSpace:(CGPoint)worldPoint
 {
-	return [normalImage_ convertToNodeSpace: worldPoint];
+	return [_normalImage convertToNodeSpace: worldPoint];
 }
 
 // retains normal image, doesnt add it as a child
 -(void) setNormalImage:(CCNode <CCRGBAProtocol>*)image
 {
-	if( image != normalImage_ ) 
+	if( image != _normalImage )
 	{
-		[normalImage_ release];
+		[_normalImage release];
 		image.visible = YES;
-		normalImage_ = [image retain];
+		_normalImage = [image retain];
 	}
 }
 
 // retains selected image, doesnt add it as a child
 -(void) setSelectedImage:(CCNode <CCRGBAProtocol>*)image
 {
-	if( image != selectedImage_ ) 
+	if( image != _selectedImage )
 	{
-		[selectedImage_ release];
+		[_selectedImage release];
 		image.visible = NO;
-		selectedImage_ = [image retain];
+		_selectedImage = [image retain];
 	}
 }
 
 // retains disabled image, doesnt add it as a child
 -(void) setDisabledImage:(CCNode <CCRGBAProtocol>*)image
 {
-	if( image != disabledImage_ ) 
+	if( image != _disabledImage )
 	{
-		[disabledImage_ release];
+		[_disabledImage
+         release];
 		image.visible = NO;
-		disabledImage_ = [image retain];
+		_disabledImage = [image retain];
 	}
 }
 
 - (void) dealloc
 {
-	[normalImage_ release];
-	[selectedImage_ release];
-	[disabledImage_ release];	
+	[_normalImage release];
+	[_selectedImage release];
+	[_disabledImage release];
 	
 	[super dealloc];
 }

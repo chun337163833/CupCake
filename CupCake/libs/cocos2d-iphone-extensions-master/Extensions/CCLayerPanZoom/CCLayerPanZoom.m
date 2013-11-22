@@ -133,7 +133,7 @@ typedef enum
             delegate = _delegate, touches = _touches, touchDistance = _touchDistance, 
             minSpeed = _minSpeed, maxSpeed = _maxSpeed, topFrameMargin = _topFrameMargin, 
             bottomFrameMargin = _bottomFrameMargin, leftFrameMargin = _leftFrameMargin,
-            rightFrameMargin = _rightFrameMargin, scheduler = _scheduler, rubberEffectRecoveryTime = _rubberEffectRecoveryTime;
+            rightFrameMargin = _rightFrameMargin, rubberEffectRecoveryTime = _rubberEffectRecoveryTime;
 
 @dynamic maxScale; 
 - (void) setMaxScale:(CGFloat)maxScale
