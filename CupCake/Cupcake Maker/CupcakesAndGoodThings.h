@@ -31,6 +31,7 @@
 @property (nonatomic) int factories;
 @property (nonatomic) int ninjas;
 @property (nonatomic) int nations;
+@property (nonatomic) int portals;
 
 @property (nonatomic, strong) NSTimer *clickerTimer;
 @property (nonatomic, strong) NSTimer *girlScoutTimer;
@@ -38,6 +39,8 @@
 @property (nonatomic, strong) NSTimer *factoryTimer;
 @property (nonatomic, strong) NSTimer *ninjaTimer;
 @property (nonatomic, strong) NSTimer *nationTimer;
+@property (nonatomic, strong) NSTimer *portalTimer;
+
 
 @property (nonatomic,strong) NSMutableArray* costArray;
 @property (nonatomic) int costOfClicker;
@@ -46,6 +49,8 @@
 @property (nonatomic) int costOfFactory;
 @property (nonatomic) int costOfNinja;
 @property (nonatomic) int costOfNation;
+@property (nonatomic) int costOfPortal;
+
 
 @property (nonatomic,strong) NSMutableArray* increaseArray;
 @property (nonatomic) double increaseOfClicker;
@@ -54,6 +59,7 @@
 @property (nonatomic) double increaseOfGirlScout;
 @property (nonatomic) double increaseOfNinja;
 @property (nonatomic) double increaseOfNation;
+@property (nonatomic) double increaseOfPortal;
 @property (nonatomic) double globalMultiplier;
 
 + (CupcakesAndGoodThings *) sharedInstance;
@@ -64,6 +70,7 @@
 -(void) incrementGirlScout;
 -(void) incrementNinjas;
 -(void) incrementNation;
+-(void) incrementPortal;
 
 typedef enum {
     clicker,
@@ -71,16 +78,18 @@ typedef enum {
     grandma,
     ninja,
     factory,
-    nation
+    nation,
+    portal
 }itemIndexes;
 
-@property(nonatomic,assign)  itemIndexes itemTypes;
 @property (nonatomic) int clickersAnimated;
 @property (nonatomic) int grandmasAnimated;
 @property (nonatomic) int factoriesAnimated;
 @property (nonatomic) int girlScoutsAnimated;
 @property (nonatomic) int ninjasAnimated;
 @property (nonatomic) int nationsAnimated;
+@property (nonatomic) int portalsAnimated;
+
 
 @property (nonatomic,strong) NSMutableArray* cupcakesInSeconds;
 @property (nonatomic, strong) NSTimer *cupcakePerMinuteTimer;

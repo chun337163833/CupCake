@@ -10,6 +10,10 @@
 		7691F6FA1830842900D7B07F /* CCScrollLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7691F5AB1830842900D7B07F /* CCScrollLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7691F6FB1830842900D7B07F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7691F5AC1830842900D7B07F /* README.md */; };
 		7691F89018308F1B00D7B07F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7691F88F18308F1B00D7B07F /* MobileCoreServices.framework */; };
+		76B14F04188237A60056F9A4 /* portal.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B14F03188237A60056F9A4 /* portal.png */; };
+		76B14F0618823DD90056F9A4 /* backgroundCupcake2.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B14F0518823DD90056F9A4 /* backgroundCupcake2.png */; };
+		76B14F081882417E0056F9A4 /* backgroundCupcake3.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B14F071882417E0056F9A4 /* backgroundCupcake3.png */; };
+		76B14F0C188244960056F9A4 /* sky.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 76B14F0B188244960056F9A4 /* sky.jpeg */; };
 		B06FDB06181F51D7003B3855 /* 120120bluecupcale.png in Resources */ = {isa = PBXBuildFile; fileRef = B06FDACC181F51D7003B3855 /* 120120bluecupcale.png */; };
 		B06FDB07181F51D7003B3855 /* Abstract_Background_5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B06FDACD181F51D7003B3855 /* Abstract_Background_5.jpg */; };
 		B06FDB08181F51D7003B3855 /* blueCupcake.png in Resources */ = {isa = PBXBuildFile; fileRef = B06FDACE181F51D7003B3855 /* blueCupcake.png */; };
@@ -206,6 +210,10 @@
 		7691F5AB1830842900D7B07F /* CCScrollLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScrollLayer.m; sourceTree = "<group>"; };
 		7691F5AC1830842900D7B07F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		7691F88F18308F1B00D7B07F /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		76B14F03188237A60056F9A4 /* portal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = portal.png; sourceTree = "<group>"; };
+		76B14F0518823DD90056F9A4 /* backgroundCupcake2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundCupcake2.png; sourceTree = "<group>"; };
+		76B14F071882417E0056F9A4 /* backgroundCupcake3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundCupcake3.png; sourceTree = "<group>"; };
+		76B14F0B188244960056F9A4 /* sky.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sky.jpeg; sourceTree = "<group>"; };
 		B06FDACC181F51D7003B3855 /* 120120bluecupcale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120120bluecupcale.png; sourceTree = "<group>"; };
 		B06FDACD181F51D7003B3855 /* Abstract_Background_5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Abstract_Background_5.jpg; sourceTree = "<group>"; };
 		B06FDACE181F51D7003B3855 /* blueCupcake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueCupcake.png; sourceTree = "<group>"; };
@@ -596,6 +604,10 @@
 		B06FDACB181F51D7003B3855 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				76B14F0B188244960056F9A4 /* sky.jpeg */,
+				76B14F071882417E0056F9A4 /* backgroundCupcake3.png */,
+				76B14F0518823DD90056F9A4 /* backgroundCupcake2.png */,
+				76B14F03188237A60056F9A4 /* portal.png */,
 				B06FDACC181F51D7003B3855 /* 120120bluecupcale.png */,
 				B06FDACD181F51D7003B3855 /* Abstract_Background_5.jpg */,
 				B06FDACE181F51D7003B3855 /* blueCupcake.png */,
@@ -1204,6 +1216,7 @@
 				B06FDB38181F51D7003B3855 /* yellowStreakedBackground.jpg in Resources */,
 				B06FDB16181F51D7003B3855 /* Abstract_Background_4.jpg in Resources */,
 				B0DBD676181DFD580059ED1C /* Icon.png in Resources */,
+				76B14F04188237A60056F9A4 /* portal.png in Resources */,
 				B06FDB27181F51D7003B3855 /* Abstract_Background_Set1.zip in Resources */,
 				B06FDB39181F51D7003B3855 /* yellowStreakedBackground.jpg.html in Resources */,
 				B06FDB2A181F51D7003B3855 /* wood_patterns.zip in Resources */,
@@ -1212,6 +1225,7 @@
 				B06FDB10181F51D7003B3855 /* cupCakeBlueNoise.png in Resources */,
 				B06FDB1C181F51D7003B3855 /* cupcake-clipart-blue-raspberry-300x300.png in Resources */,
 				B0DBD7D4181DFD5A0059ED1C /* ChangeLog in Resources */,
+				76B14F0C188244960056F9A4 /* sky.jpeg in Resources */,
 				B06FDB17181F51D7003B3855 /* Abstract_Background_5.jpg in Resources */,
 				B06FDB35181F51D7003B3855 /* purpleFactory.png in Resources */,
 				B06FDB32181F51D7003B3855 /* greenCupcakeBackGround6401036.png in Resources */,
@@ -1242,6 +1256,7 @@
 				B06FDB15181F51D7003B3855 /* Abstract_Background_3.jpg in Resources */,
 				B06FDB0C181F51D7003B3855 /* cupCakeClearBitten2.png in Resources */,
 				B06FDB11181F51D7003B3855 /* 1381366788_factory.png in Resources */,
+				76B14F081882417E0056F9A4 /* backgroundCupcake3.png in Resources */,
 				B06FDB0B181F51D7003B3855 /* cupCakeClearBitten1.png in Resources */,
 				B0DBD666181DFD580059ED1C /* Default.png in Resources */,
 				B0DBD670181DFD580059ED1C /* Icon-Small-50.png in Resources */,
@@ -1264,6 +1279,7 @@
 				B0DBD678181DFD580059ED1C /* Icon@2x.png in Resources */,
 				B06FDB0D181F51D7003B3855 /* cupCakeClearBitten3.png in Resources */,
 				B06FDB08181F51D7003B3855 /* blueCupcake.png in Resources */,
+				76B14F0618823DD90056F9A4 /* backgroundCupcake2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,12 +27,16 @@ static id instance = nil;
 
 -(void)setDefaultValues{
     self.costOfFactory =-1000;
-    self.costOfClicker =-1;
+    self.costOfClicker =-15;
     self.costOfGrandma =-300;
-    self.costOfGirlScout =-75;
+    self.costOfGirlScout =-1;
     self.costOfNinja =-500;
     self.costOfNation =-7500;
-    self.costArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:self.costOfClicker], [NSNumber numberWithInt:self.costOfGirlScout],[NSNumber numberWithInt:self.costOfGrandma],[NSNumber numberWithInt:self.costOfNinja],[NSNumber numberWithInt:self.costOfFactory], [NSNumber numberWithInt:self.costOfNation], nil];
+    self.costOfPortal =-100000;
+    
+    self.cupcakes = [NSNumber numberWithInt:100000000];
+
+    self.costArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:self.costOfClicker], [NSNumber numberWithInt:self.costOfGirlScout],[NSNumber numberWithInt:self.costOfGrandma],[NSNumber numberWithInt:self.costOfNinja],[NSNumber numberWithInt:self.costOfFactory], [NSNumber numberWithInt:self.costOfNation], [NSNumber numberWithInt:self.costOfPortal],  nil];
     
     self.increaseOfClicker = 1;
     self.increaseOfGrandma = 28;
@@ -40,8 +44,9 @@ static id instance = nil;
     self.increaseOfGirlScout =9;
     self.increaseOfNinja = 4;
     self.increaseOfNation = 180;
+    self.increaseOfPortal= 500;
     self.globalMultiplier = 1;
-    self.increaseArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:self.increaseOfClicker], [NSNumber numberWithInt:self.increaseOfGirlScout],[NSNumber numberWithInt:self.increaseOfGrandma],[NSNumber numberWithInt:self.increaseOfNinja],[NSNumber numberWithInt:self.increaseOfFactory],[NSNumber numberWithInt:self.increaseOfNation], nil];
+    self.increaseArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:self.increaseOfClicker], [NSNumber numberWithInt:self.increaseOfGirlScout],[NSNumber numberWithInt:self.increaseOfGrandma],[NSNumber numberWithInt:self.increaseOfNinja],[NSNumber numberWithInt:self.increaseOfFactory],[NSNumber numberWithInt:self.increaseOfNation],[NSNumber numberWithInt:self.increaseOfPortal],nil];
     
     self.cupcakesInSeconds = [[NSMutableArray alloc]init];
 }
@@ -89,7 +94,7 @@ static id instance = nil;
 -(void) clickerMadeCupcakes{
     [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfClicker] asUserClick:NO];
     if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:0] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfClicker * self.globalMultiplier] theseManyTimes:self.clickersAnimated];
+        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:clicker] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfClicker * self.globalMultiplier] theseManyTimes:self.clickersAnimated];
         self.clickersAnimated++;
         
     }
@@ -98,7 +103,7 @@ static id instance = nil;
 -(void) grandmaMadeCupcakes{
     [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfGrandma] asUserClick:NO];
     if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:2] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfGrandma * self.globalMultiplier] theseManyTimes:self.grandmasAnimated];
+        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:grandma] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfGrandma * self.globalMultiplier] theseManyTimes:self.grandmasAnimated];
         self.grandmasAnimated++;
     }
 }
@@ -106,7 +111,7 @@ static id instance = nil;
 -(void) factoryMadeCupcakes{
     [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfFactory]asUserClick:NO];
     if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:4] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfFactory * self.globalMultiplier] theseManyTimes:self.factoriesAnimated];
+        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:factory] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfFactory * self.globalMultiplier] theseManyTimes:self.factoriesAnimated];
         self.factoriesAnimated++;
     }
     
@@ -115,7 +120,7 @@ static id instance = nil;
 -(void) girlScoutMadeCupcakes{
     [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfGirlScout]asUserClick:NO];
     if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:1] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfGirlScout * self.globalMultiplier] theseManyTimes:self.girlScoutsAnimated];
+        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:girlScout] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfGirlScout * self.globalMultiplier] theseManyTimes:self.girlScoutsAnimated];
         self.girlScoutsAnimated++;
     }
     
@@ -124,7 +129,7 @@ static id instance = nil;
 -(void) ninjaMadeCupcakes{
     [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfNinja]asUserClick:NO];
     if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:3] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfNinja * self.globalMultiplier] theseManyTimes:self.ninjasAnimated];
+        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:ninja] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfNinja * self.globalMultiplier] theseManyTimes:self.ninjasAnimated];
         self.ninjasAnimated++;
     }
     
@@ -133,10 +138,17 @@ static id instance = nil;
 -(void) nationMadeCupcakes{
     [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfNation]asUserClick:NO];
     if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:5]  didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfNation * self.globalMultiplier] theseManyTimes:self.nationsAnimated];
+        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:nation]  didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfNation * self.globalMultiplier] theseManyTimes:self.nationsAnimated];
         self.nationsAnimated++;
     }
-    
+}
+
+-(void) portalMadeCupcakes{
+    [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfPortal]asUserClick:NO];
+    if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
+        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:portal]  didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfPortal * self.globalMultiplier] theseManyTimes:self.portalsAnimated];
+        self.portalsAnimated++;
+    }
 }
 
 #pragma mark Incrementing items by one
@@ -145,7 +157,7 @@ static id instance = nil;
     
     if((self.cupcakes.intValue + self.costOfClicker) < 0){
         if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:0]];
+            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:clicker]];
         }
         return;
     }
@@ -155,7 +167,7 @@ static id instance = nil;
    // float timeTaken = (float)10/(float)self.clickers;
     
     self.clickerTimer = [NSTimer scheduledTimerWithTimeInterval:(float)(10.0f/(float)self.clickers) target:self selector:@selector(clickerMadeCupcakes) userInfo:nil repeats:YES] ;
-//    self.costOfClicker -= 5;
+    self.costOfClicker -= 5;
      [self.costArray replaceObjectAtIndex:clicker withObject:[NSNumber numberWithInt:self.costOfClicker]];
     NSLog(@"cost of clicker %d", [(NSNumber *)self.costArray[0] intValue]);
     self.increaseOfClicker = 1 + (self.clickers /5);
@@ -168,7 +180,7 @@ static id instance = nil;
 -(void)incrementFactories{
     if((self.cupcakes.intValue + self.costOfFactory) < 0){
         if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:4]];
+            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:factory]];
         }
         return;
     }
@@ -190,7 +202,7 @@ static id instance = nil;
     
     if((self.cupcakes.intValue + self.costOfGrandma) < 0){
         if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:2]];
+            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:grandma]];
         }
         return;
     }
@@ -213,7 +225,7 @@ static id instance = nil;
     
     if((self.cupcakes.intValue + self.costOfGirlScout) < 0){
         if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:1]];
+            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:girlScout]];
         }
         return;
     }
@@ -237,7 +249,7 @@ static id instance = nil;
     
     if((self.cupcakes.intValue + self.costOfNinja) < 0){
         if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:3]];
+            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:ninja]];
         }
         return;
     }
@@ -260,7 +272,7 @@ static id instance = nil;
     
     if((self.cupcakes.intValue + self.costOfNation) < 0){
         if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:5]];
+            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:nation]];
         }
         return;
     }
@@ -270,10 +282,31 @@ static id instance = nil;
     self.nations ++;
     [self.nationTimer invalidate];
     self.nationTimer = [NSTimer scheduledTimerWithTimeInterval:(float)30/(float)self.nations target:self selector:@selector(nationMadeCupcakes) userInfo:nil repeats:YES] ;
-    self.costOfNation -= 30;
+    self.costOfNation -= 500;
     [self.costArray replaceObjectAtIndex:nation withObject:[NSNumber numberWithInt:self.costOfNation]];
     self.increaseOfNation +=  20;
     [self.increaseArray replaceObjectAtIndex:nation withObject:[NSNumber numberWithInt:self.increaseOfNation]];
+    [self updateItemCupcakeRate];
+}
+
+-(void)incrementPortal{
+    
+    if((self.cupcakes.intValue + self.costOfPortal) < 0){
+        if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
+            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:portal]];
+        }
+        return;
+    }
+    
+    [self increaseCupcakesBy:[NSNumber numberWithDouble:self.costOfPortal]asUserClick:NO];
+    
+    self.portals ++;
+    [self.portalTimer invalidate];
+    self.portalTimer = [NSTimer scheduledTimerWithTimeInterval:(float)20/(float)self.portals target:self selector:@selector(portalMadeCupcakes) userInfo:nil repeats:YES] ;
+    self.costOfPortal -= 10000;
+    [self.costArray replaceObjectAtIndex:portal withObject:[NSNumber numberWithInt:self.costOfPortal]];
+    self.increaseOfPortal +=  75;
+    [self.increaseArray replaceObjectAtIndex:portal withObject:[NSNumber numberWithInt:self.increaseOfPortal]];
     [self updateItemCupcakeRate];
 }
 
@@ -310,6 +343,10 @@ static id instance = nil;
             case nation:
                 timesPerSecond = 30.0f;
                 countOfItems = self.nations;
+                break;
+            case portal:
+                timesPerSecond = 20.0f;
+                countOfItems = self.portals;
                 break;
             default:
                 timesPerSecond= 10.0f;
