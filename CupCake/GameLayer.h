@@ -23,7 +23,7 @@
 +(CCScene *) scene;
 @property (nonatomic, weak) CCMenuItemSprite *cupcakeButton;
 @property (nonatomic, weak) CCMenu *mainMenu;
-@property (nonatomic, weak) CCScrollLayer *itemScrollLayer;
+@property (nonatomic, strong) CCLayer *itemScrollLayer;
 @property (nonatomic, weak) CCLabelBMFont *cupcakeCountLabel;;
 
 

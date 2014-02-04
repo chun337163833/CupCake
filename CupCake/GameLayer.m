@@ -14,7 +14,7 @@
 #import "AppDelegate.h"
 
 #define IPHONE_SCREEN_CENTER 160.0f
-#define CURSOR_RADIUS 90.0f
+#define CURSOR_RADIUS 75.0f
 #define CURSOR_SIZE 25.0f
 #define ITEM_SIZE 20.0f
 
@@ -52,9 +52,9 @@
         [CupcakesAndGoodThings initialize];
         [[CupcakesAndGoodThings sharedInstance] setDelegate:self];
         [self addBackground];
+        [self setUpItemScrollView];
         [self setUpMenu];
         [self setUpCupcakeButton];
-        [self setUpItemScrollView];
         [self setUpMisc];
     }
 	return self;
@@ -65,10 +65,16 @@
     
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
-    CCSprite *background = [CCSprite spriteWithFile:@"sky.jpeg"];
+    CCSprite *background = [CCSprite spriteWithFile:@"sky_without_clouds.png"];
     [background setScale:3.0f];
     background.position = ccp(winSize.width/2, 50+winSize.height/2);
     [self addChild:background];
+    
+    CCSprite *background2 = [CCSprite spriteWithFile:@"sky_background_with_clouds.png"];
+    [background2 setScale:3.0f];
+    background2.position = ccp(winSize.width/2, 50+winSize.height/2);
+    [self addChild:background2];
+    
 }
 
 
@@ -76,63 +82,54 @@
     [CCMenuItemFont setFontSize:15];
     
     CCMenuItem *clickerButton = [CCMenuItemFont itemWithString:@"Clicker" block:^(id sender) {
-        [[CupcakesAndGoodThings sharedInstance] incrementClickers];
+        [[CupcakesAndGoodThings sharedInstance] incrementItem:clicker];
         [self addCursor];
-//        [self.autoclickerPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfClicker]];
-        
     }];
     clickerButton.position = ccp(0,200);
     
     
     CCMenuItem *girlScoutButton = [CCMenuItemFont itemWithString:@"GirlScout" block:^(id sender) {
-        [[CupcakesAndGoodThings sharedInstance] incrementGirlScout];
+        [[CupcakesAndGoodThings sharedInstance] incrementItem:girlScout];
         [self incrementMenuViewItems:girlScout];
-        //        [self.mainView.girlScoutPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfGirlScout]];
     }];
 
     girlScoutButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * girlScout);
 
     
     CCMenuItem *grandmaButton = [CCMenuItemFont itemWithString:@"Grandma" block:^(id sender) {
-      
-        [[CupcakesAndGoodThings sharedInstance] incrementGrandmas];
+        
+        [[CupcakesAndGoodThings sharedInstance] incrementItem:grandma];
         [self incrementMenuViewItems:grandma];
-    
-        //        [self.mainView.grandmaPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfGrandma]];
     }];
 
     grandmaButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * grandma);
     
     
     CCMenuItem *ninjaButton = [CCMenuItemFont itemWithString:@"Ninja" block:^(id sender) {
-        [[CupcakesAndGoodThings sharedInstance] incrementNinjas];
+        [[CupcakesAndGoodThings sharedInstance] incrementItem:ninja];
         [self incrementMenuViewItems:ninja];
-//        [self.mainView.ninjaPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfNinja]];
     }];
     ninjaButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * ninja);
     
     
     CCMenuItem *factoryButton = [CCMenuItemFont itemWithString:@"Factory" block:^(id sender) {
         
-        [[CupcakesAndGoodThings sharedInstance] incrementFactories];
+        [[CupcakesAndGoodThings sharedInstance] incrementItem:factory];
         [self incrementMenuViewItems:factory];
-//        [self.mainView.factoryPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfFactory]];
     }];
     
     factoryButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * factory);
     
     
     CCMenuItem *planetButton = [CCMenuItemFont itemWithString:@"Planet" block:^(id sender) {
-        [[CupcakesAndGoodThings sharedInstance] incrementNation];
+        [[CupcakesAndGoodThings sharedInstance] incrementItem:nation];
         [self incrementMenuViewItems:nation];
-//        [self.mainView.nationPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfNation]];
     }];
     planetButton.position = ccp(0, 200 - ITEM_BUTTON_SEPERATION * nation);
     
-    CCMenuItem *portalButton = [CCMenuItemFont itemWithString:@"Ancient Portal" block:^(id sender) {
-        [[CupcakesAndGoodThings sharedInstance] incrementPortal];
+    CCMenuItem *portalButton = [CCMenuItemFont itemWithString:@"Portal" block:^(id sender) {
+        [[CupcakesAndGoodThings sharedInstance] incrementItem:portal];
         [self incrementMenuViewItems:portal];
-        //        [self.mainView.nationPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfNation]];
     }];
     portalButton.position = ccp(0, 200 - ITEM_BUTTON_SEPERATION * portal);
     
@@ -141,8 +138,29 @@
     self.mainMenu = [CCMenu menuWithItems:clickerButton, girlScoutButton, grandmaButton, ninjaButton, factoryButton, planetButton, portalButton, nil];
     
     [self.mainMenu setPosition:ccp(40, self.mainMenu.position.y -200)];
-    
     [self addChild:self.mainMenu];
+    [self addChild:[self createMenuLabels]];
+}
+
+- (CCLayer*) createMenuLabels{
+ 
+    CCLayer* items = [[CCLayer alloc] init];
+    for(int x = 0; x < numObjects; x ++){
+        NSNumber *costOfItem = [[CupcakesAndGoodThings sharedInstance] costArray][x] ;
+        
+        CCLabelTTF *itemLabel  = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d",-1 * costOfItem.intValue] fontName:@"Arial" fontSize:13.0f];
+        [itemLabel setPosition:ccp(40,260 - ITEM_BUTTON_SEPERATION * x)];
+        [itemLabel setColor:(ccc3(255, 105, 180))];
+        [items addChild:itemLabel];
+        
+        
+//        NSNumber *numberOfItems = [[CupcakesAndGoodThings sharedInstance] itemArray][x] ;
+//        CCLabelTTF *numberOfItemsLabel  = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d", numberOfItems.intValue] fontName:@"Arial" fontSize:13.0f];
+//        [itemLabel setPosition:ccp(40,260 - ITEM_BUTTON_SEPERATION * x)];
+//        [itemLabel setColor:(ccc3(255, 105, 180))];
+//        [items addChild:numberOfItemsLabel];
+    }
+    return items;
 }
 
 -(void)setUpCupcakeButton{
@@ -150,7 +168,7 @@
     self.cupcakeButton = [CCMenuItemImage itemWithNormalImage:@"cupCakeClearBitten0.png" selectedImage:@"cupCakeClearBitten0.png" target:self selector:@selector(cupcakeButtonPressed)];
     
     self.cupcakeButton.position = ccp(0, 160);
-    [self.cupcakeButton setScale:0.2];
+    [self.cupcakeButton setScale:0.18];
     
     CCMenu *menu = [CCMenu menuWithItems:self.cupcakeButton, nil];
     [self addChild:menu];
@@ -171,7 +189,9 @@
 #pragma mark cupcake button
 
 -(void) cupcakeButtonPressed{
-    [[CupcakesAndGoodThings sharedInstance] increaseCupcakesBy:[NSNumber numberWithInt:[[CupcakesAndGoodThings sharedInstance] increaseOfClicker]]asUserClick:YES];
+    NSNumber *clickerIncrease =[[CupcakesAndGoodThings sharedInstance] increaseArray][clicker];
+    
+    [[CupcakesAndGoodThings sharedInstance] increaseCupcakesBy:[NSNumber numberWithInt: clickerIncrease.intValue] asUserClick:YES];
     NSLog(@"%d", [[[CupcakesAndGoodThings sharedInstance] cupcakes]intValue]);
     [self cycleCupcakeButton];
 }
@@ -192,7 +212,8 @@
 
 #pragma mark Item Scroll View
 -(void) setUpItemScrollView{
-    self.itemScrollLayer = [[CCScrollLayer alloc] init];
+    self.itemScrollLayer = [[CCLayer alloc] init];
+    [self addChild:self.itemScrollLayer];
 }
 
 
@@ -208,10 +229,10 @@
     }
     
     [self.cursorsAdded removeAllObjects];
+    NSNumber *clickers = [[CupcakesAndGoodThings sharedInstance] itemArray][clicker];
+    float radiansToIncease = (2*M_PI)/clickers.floatValue;
     
-    float radiansToIncease = (2*M_PI)/[[CupcakesAndGoodThings sharedInstance] clickers];
-    
-    for(int x = 0; x < [[CupcakesAndGoodThings sharedInstance] clickers]; x++ ){
+    for(int x = 0; x < clickers.intValue; x++ ){
         
         CCSprite *cursorImage = [[CCSprite alloc] initWithFile:@"cursor.png"];
         
@@ -226,47 +247,43 @@
 
 -(void) incrementMenuViewItems:(int) itemIndex {
     NSMutableArray *listOfAlreadyAddedItems;
-    int numberOfItems;
+    NSNumber *numberOfItems;
     CCSprite *itemSprite;
     float customScale =1;
+    
+    numberOfItems = [[CupcakesAndGoodThings sharedInstance] itemArray][itemIndex];
     switch(itemIndex){
            case girlScout:
-            numberOfItems = [[CupcakesAndGoodThings sharedInstance] girlScouts];
             if(!self.girlScoutsAdded) self.girlScoutsAdded = [[NSMutableArray alloc] init];
             listOfAlreadyAddedItems = self.girlScoutsAdded;
             customScale = 0.25f;
             itemSprite = [[CCSprite alloc] initWithFile:@"girlWithCupcake.png"];
             break;
         case grandma:
-            numberOfItems = [[CupcakesAndGoodThings sharedInstance] grandmas];
             if(!self.grandmasAdded) self.grandmasAdded = [[NSMutableArray alloc] init];
             listOfAlreadyAddedItems = self.grandmasAdded;
             customScale = 0.125f;
             itemSprite = [[CCSprite alloc] initWithFile:@"grandma.png"];
             break;
         case ninja:
-            numberOfItems = [[CupcakesAndGoodThings sharedInstance] ninjas];
             if(!self.ninjasAdded) self.ninjasAdded = [[NSMutableArray alloc] init];
             listOfAlreadyAddedItems = self.ninjasAdded;
             customScale = 1.19f;
             itemSprite = [[CCSprite alloc] initWithFile:@"ninjaDown.png"];
             break;
         case factory:
-            numberOfItems = [[CupcakesAndGoodThings sharedInstance] factories];
             if(!self.factoriesAdded) self.factoriesAdded = [[NSMutableArray alloc] init];
             listOfAlreadyAddedItems = self.factoriesAdded;
             customScale = 0.22f;
             itemSprite = [[CCSprite alloc] initWithFile:@"factory.png"];
             break;
         case nation:
-            numberOfItems = [[CupcakesAndGoodThings sharedInstance] nations];
             if(!self.nationsAdded) self.nationsAdded = [[NSMutableArray alloc] init];
             listOfAlreadyAddedItems = self.nationsAdded;
             customScale = 0.1f;
             itemSprite = [[CCSprite alloc] initWithFile:@"nationIcon.png"];
             break;
         case portal:
-            numberOfItems = [[CupcakesAndGoodThings sharedInstance] portals];
             if(!self.portalsAdded) self.portalsAdded = [[NSMutableArray alloc] init];
             listOfAlreadyAddedItems = self.portalsAdded;
             customScale = 0.06f;
@@ -276,7 +293,7 @@
             return;
     }
     
-    if(numberOfItems <= 0) return;
+    if(numberOfItems.intValue <= 0) return;
     [self addSpriteObject:itemSprite withScale: customScale usingAlreadyAddedArray:listOfAlreadyAddedItems nextToButtonIndex:itemIndex];
 }
 
@@ -288,9 +305,16 @@
     itemToAdd.position = ccp(ITEM_BUTTON_OFFSET_X + itemsOnLine * (ITEM_SIZE + 2), ITEM_BUTTON_OFFSET_Y - ITEM_SIZE * (lineNumber %2) - ITEM_BUTTON_SEPERATION * buttonIndex);
     [itemToAdd setScale:customScale];
   
-    [self addChild:itemToAdd];
+    [self.itemScrollLayer addChild:itemToAdd];
+    [self.itemScrollLayer setPosition:ccp(0,0)];
     [listOfAddedItems addObject:itemToAdd];
     NSLog(@"list %d", listOfAddedItems.count);
+    
+    
+//    CGRect worldBoundary = CGRectMake(0, 0, 360, 360);
+//    [self.itemScrollLayer runAction:[CCFollow actionWithTarget:itemToAdd worldBoundary:worldBoundary]];
+    
+    
 }
 
 

@@ -25,29 +25,30 @@ static id instance = nil;
 
 }
 
+
+//@property (nonatomic, strong) NSTimer *clickerTimer;
+//@property (nonatomic, strong) NSTimer *girlScoutTimer;
+//@property (nonatomic, strong) NSTimer *grandmaTimer;
+//@property (nonatomic, strong) NSTimer *factoryTimer;
+//@property (nonatomic, strong) NSTimer *ninjaTimer;
+//@property (nonatomic, strong) NSTimer *nationTimer;
+//@property (nonatomic, strong) NSTimer *portalTimer;
+
 -(void)setDefaultValues{
-    self.costOfFactory =-1000;
-    self.costOfClicker =-15;
-    self.costOfGrandma =-300;
-    self.costOfGirlScout =-1;
-    self.costOfNinja =-500;
-    self.costOfNation =-7500;
-    self.costOfPortal =-100000;
     
     self.cupcakes = [NSNumber numberWithInt:100000000];
-
-    self.costArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:self.costOfClicker], [NSNumber numberWithInt:self.costOfGirlScout],[NSNumber numberWithInt:self.costOfGrandma],[NSNumber numberWithInt:self.costOfNinja],[NSNumber numberWithInt:self.costOfFactory], [NSNumber numberWithInt:self.costOfNation], [NSNumber numberWithInt:self.costOfPortal],  nil];
-    
-    self.increaseOfClicker = 1;
-    self.increaseOfGrandma = 28;
-    self.increaseOfFactory = 57;
-    self.increaseOfGirlScout =9;
-    self.increaseOfNinja = 4;
-    self.increaseOfNation = 180;
-    self.increaseOfPortal= 500;
     self.globalMultiplier = 1;
-    self.increaseArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:self.increaseOfClicker], [NSNumber numberWithInt:self.increaseOfGirlScout],[NSNumber numberWithInt:self.increaseOfGrandma],[NSNumber numberWithInt:self.increaseOfNinja],[NSNumber numberWithInt:self.increaseOfFactory],[NSNumber numberWithInt:self.increaseOfNation],[NSNumber numberWithInt:self.increaseOfPortal],nil];
     
+    self.costArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:-15], [NSNumber numberWithInt:-100],[NSNumber numberWithInt:-300],[NSNumber numberWithInt:-500],[NSNumber numberWithInt:-1000], [NSNumber numberWithInt:-7500], [NSNumber numberWithInt:-100000],  nil];
+    
+    self.increaseArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:1], [NSNumber numberWithInt:9],[NSNumber numberWithInt:28],[NSNumber numberWithInt:4],[NSNumber numberWithInt:57],[NSNumber numberWithInt:180],[NSNumber numberWithInt:500],nil];
+    
+    self.itemArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:0], [NSNumber numberWithInt:0],[NSNumber numberWithInt:0],[NSNumber numberWithInt:0],[NSNumber numberWithInt:0],[NSNumber numberWithInt:0],[NSNumber numberWithInt:0],nil];
+    
+    self.animatedCountArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:0], [NSNumber numberWithInt:0],[NSNumber numberWithInt:0],[NSNumber numberWithInt:0],[NSNumber numberWithInt:0],[NSNumber numberWithInt:0],[NSNumber numberWithInt:0],nil];
+    
+    
+    self.timerArray = [[NSMutableArray alloc] initWithObjects:[NSObject alloc],[NSObject alloc],[NSObject alloc],[NSObject alloc],[NSObject alloc],[NSObject alloc],[NSObject alloc], nil];
     self.cupcakesInSeconds = [[NSMutableArray alloc]init];
 }
 
@@ -63,7 +64,7 @@ static id instance = nil;
     if(!self.cupcakePerMinuteTimer){
         self.cupcakePerMinuteTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateCupcakesPerMinute) userInfo:nil repeats:YES];
     }
-    bool isIncrease =amount.intValue > 0;
+    bool isIncrease = amount.intValue > 0;
     
     if(isIncrease && userClick){
         self.cupcakesMadeThisSecondByUser += amount.intValue;
@@ -75,10 +76,10 @@ static id instance = nil;
 }
 
 -(void) updateCupcakesPerMinute{
-    
+    [self updateItemCupcakeRate];
     [self.cupcakesInSeconds addObject:[NSNumber numberWithInt:self.cupcakesMadeThisSecondByUser]];
     self.actualSpeed += self.cupcakesMadeThisSecondByUser;
-    int timesUserClickedCupcakeButtonThisSecond = (self.cupcakesMadeThisSecondByUser/self.increaseOfClicker);
+    int timesUserClickedCupcakeButtonThisSecond = (self.cupcakesMadeThisSecondByUser/[(NSNumber*)self.increaseArray[clicker] floatValue]);
     self.cupcakesMadeThisSecondByUser =0;
     
     if(self.cupcakesInSeconds.count > 10){
@@ -91,223 +92,124 @@ static id instance = nil;
     }
 
 }
--(void) clickerMadeCupcakes{
-    [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfClicker] asUserClick:NO];
-    if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:clicker] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfClicker * self.globalMultiplier] theseManyTimes:self.clickersAnimated];
-        self.clickersAnimated++;
-        
-    }
-}
 
--(void) grandmaMadeCupcakes{
-    [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfGrandma] asUserClick:NO];
-    if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:grandma] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfGrandma * self.globalMultiplier] theseManyTimes:self.grandmasAnimated];
-        self.grandmasAnimated++;
-    }
-}
+- (void)makeCupcakesForItem:(NSTimer*)timer {
+    int item = [[[timer userInfo] objectForKey:@"item"] integerValue];
 
--(void) factoryMadeCupcakes{
-    [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfFactory]asUserClick:NO];
+    int cupcakesCreated = [(NSNumber*)self.increaseArray[item] intValue] * self.globalMultiplier;
+    [self increaseCupcakesBy:[NSNumber numberWithInt: cupcakesCreated] asUserClick:NO];
     if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:factory] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfFactory * self.globalMultiplier] theseManyTimes:self.factoriesAnimated];
-        self.factoriesAnimated++;
-    }
-    
-}
-
--(void) girlScoutMadeCupcakes{
-    [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfGirlScout]asUserClick:NO];
-    if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:girlScout] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfGirlScout * self.globalMultiplier] theseManyTimes:self.girlScoutsAnimated];
-        self.girlScoutsAnimated++;
-    }
-    
-}
-
--(void) ninjaMadeCupcakes{
-    [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfNinja]asUserClick:NO];
-    if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:ninja] didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfNinja * self.globalMultiplier] theseManyTimes:self.ninjasAnimated];
-        self.ninjasAnimated++;
-    }
-    
-}
-
--(void) nationMadeCupcakes{
-    [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfNation]asUserClick:NO];
-    if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:nation]  didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfNation * self.globalMultiplier] theseManyTimes:self.nationsAnimated];
-        self.nationsAnimated++;
-    }
-}
-
--(void) portalMadeCupcakes{
-    [self increaseCupcakesBy:[NSNumber numberWithInt:self.increaseOfPortal]asUserClick:NO];
-    if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:portal]  didCreateTheseManyCupcakes:[NSNumber numberWithInt:self.increaseOfPortal * self.globalMultiplier] theseManyTimes:self.portalsAnimated];
-        self.portalsAnimated++;
+        [self.animatedCountArray replaceObjectAtIndex:item withObject:[NSNumber numberWithInt:[(NSNumber*)self.animatedCountArray[clicker] intValue] +1]];
+        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:item] didCreateTheseManyCupcakes:cupcakesCreated theseManyTimes:[(NSNumber*)self.animatedCountArray[clicker] intValue]];
     }
 }
 
 #pragma mark Incrementing items by one
 
--(void)incrementClickers{
-    
-    if((self.cupcakes.intValue + self.costOfClicker) < 0){
+-(void)incrementItem: (items) item{
+    if((self.cupcakes.intValue + [(NSNumber *)self.costArray[clicker] intValue])< 0){
         if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:clicker]];
+            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:item]];
         }
         return;
     }
-    [self increaseCupcakesBy:[NSNumber numberWithDouble:self.costOfClicker]asUserClick:NO];
-    self.clickers ++;
-    [self.clickerTimer invalidate];
-   // float timeTaken = (float)10/(float)self.clickers;
-    
-    self.clickerTimer = [NSTimer scheduledTimerWithTimeInterval:(float)(10.0f/(float)self.clickers) target:self selector:@selector(clickerMadeCupcakes) userInfo:nil repeats:YES] ;
-    self.costOfClicker -= 5;
-     [self.costArray replaceObjectAtIndex:clicker withObject:[NSNumber numberWithInt:self.costOfClicker]];
-    NSLog(@"cost of clicker %d", [(NSNumber *)self.costArray[0] intValue]);
-    self.increaseOfClicker = 1 + (self.clickers /5);
-    [self.increaseArray replaceObjectAtIndex:clicker withObject:[NSNumber numberWithInt:self.increaseOfClicker]];
-    
-    [self updateItemCupcakeRate];
-
-}
-
--(void)incrementFactories{
-    if((self.cupcakes.intValue + self.costOfFactory) < 0){
-        if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:factory]];
-        }
-        return;
-    }
-    
-    [self increaseCupcakesBy:[NSNumber numberWithDouble:self.costOfFactory]asUserClick:NO];
-    self.factories ++;
-    [self.factoryTimer invalidate];
-    self.factoryTimer = [NSTimer scheduledTimerWithTimeInterval:(float)15.0/(float)self.factories target:self selector:@selector(factoryMadeCupcakes) userInfo:nil repeats:YES] ;
-    [self.costArray replaceObjectAtIndex:factory withObject:[NSNumber numberWithInt:self.costOfFactory]];
-    self.costOfFactory -= 50;
-    self.increaseOfFactory = self.increaseOfFactory + 3;
-    [self.increaseArray replaceObjectAtIndex:factory withObject:[NSNumber numberWithInt:self.increaseOfFactory]];
-    
-    [self updateItemCupcakeRate];
-
-}
-
--(void)incrementGrandmas{
-    
-    if((self.cupcakes.intValue + self.costOfGrandma) < 0){
-        if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:grandma]];
-        }
-        return;
-    }
-    
-    [self increaseCupcakesBy:[NSNumber numberWithDouble:self.costOfGrandma]asUserClick:NO];
-    
-    self.grandmas ++;
-    [self.grandmaTimer invalidate];
-    self.grandmaTimer = [NSTimer scheduledTimerWithTimeInterval:(float)10.0/(float)self.grandmas target:self selector:@selector(grandmaMadeCupcakes) userInfo:nil repeats:YES] ;
-    self.costOfGrandma -= 20;
-    [self.costArray replaceObjectAtIndex:grandma withObject:[NSNumber numberWithInt:self.costOfGrandma]];
-    self.increaseOfGrandma =self.increaseOfGrandma +2;
-    [self.increaseArray replaceObjectAtIndex:grandma withObject:[NSNumber numberWithInt:self.increaseOfGrandma]];
-    
-    [self updateItemCupcakeRate];
-
-}
-
--(void)incrementGirlScout{
-    
-    if((self.cupcakes.intValue + self.costOfGirlScout) < 0){
-        if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:girlScout]];
-        }
-        return;
-    }
-    
-    [self increaseCupcakesBy:[NSNumber numberWithDouble:self.costOfGirlScout]asUserClick:NO];
-    
-    self.girlScouts ++;
-    [self.girlScoutTimer invalidate];
-    self.girlScoutTimer = [NSTimer scheduledTimerWithTimeInterval:(float)10.0/(float)self.girlScouts target:self selector:@selector(girlScoutMadeCupcakes) userInfo:nil repeats:YES] ;
-    self.costOfGirlScout -= 10;
-     [self.costArray replaceObjectAtIndex:girlScout withObject:[NSNumber numberWithInt:self.costOfGirlScout]];
-    
-    [self.costArray replaceObjectAtIndex:girlScout withObject:[NSNumber numberWithInt:self.costOfGirlScout]];
-    self.increaseOfGirlScout =self.increaseOfGirlScout +1;
-    [self.increaseArray replaceObjectAtIndex:girlScout withObject:[NSNumber numberWithInt:self.increaseOfGirlScout]];
-
-    [self updateItemCupcakeRate];
-}
-
--(void)incrementNinjas{
-    
-    if((self.cupcakes.intValue + self.costOfNinja) < 0){
-        if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:ninja]];
-        }
-        return;
-    }
-    
-    [self increaseCupcakesBy:[NSNumber numberWithDouble:self.costOfNinja]asUserClick:NO];
-    
-    self.ninjas ++;
-    [self.ninjaTimer invalidate];
-    self.ninjaTimer = [NSTimer scheduledTimerWithTimeInterval:(float)0.8/(float)self.ninjas target:self selector:@selector(ninjaMadeCupcakes) userInfo:nil repeats:YES] ;
-    self.costOfNinja -= 30;
-    [self.costArray replaceObjectAtIndex:girlScout withObject:[NSNumber numberWithInt:self.costOfGirlScout]];
-    self.increaseOfNinja = 4 +floor(self.ninjas / 5);
-    [self.increaseArray replaceObjectAtIndex:ninja withObject:[NSNumber numberWithInt:self.increaseOfNinja]];
-    
-    [self updateItemCupcakeRate];
+    NSNumber *costOfItem = self.costArray[item];
+    NSNumber *itemCount = self.itemArray[item];
+    [self increaseCupcakesBy:costOfItem asUserClick:NO];
+    [self.itemArray replaceObjectAtIndex:item withObject:[NSNumber numberWithInt:itemCount.intValue + 1]];
+    itemCount = self.itemArray[item];
+    [self updateCostValuesForItem:item];
+    [self updateTimerForItem:item withItemCount: itemCount];
     
 }
 
--(void)incrementNation{
-    
-    if((self.cupcakes.intValue + self.costOfNation) < 0){
-        if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:nation]];
-        }
-        return;
+-(void) updateTimerForItem: (items) item withItemCount: (NSNumber*) itemCount{
+    float defaultTime = 15.0f;
+    switch (item) {
+        case clicker:
+                defaultTime = 5.0f;
+            break;
+        case girlScout:
+                defaultTime = 5.0f;
+            break;
+        case grandma:
+                defaultTime = 7.0f;
+            break;
+        case ninja:
+                defaultTime = 1.0f;
+            break;
+        case factory:
+                defaultTime = 15.0f;
+            break;
+        case nation:
+                defaultTime = 30.0f;
+            break;
+        case portal:
+                defaultTime = 60.0f;
+            break;
+        default:
+            break;
     }
     
-    [self increaseCupcakesBy:[NSNumber numberWithDouble:self.costOfNation]asUserClick:NO];
-    
-    self.nations ++;
-    [self.nationTimer invalidate];
-    self.nationTimer = [NSTimer scheduledTimerWithTimeInterval:(float)30/(float)self.nations target:self selector:@selector(nationMadeCupcakes) userInfo:nil repeats:YES] ;
-    self.costOfNation -= 500;
-    [self.costArray replaceObjectAtIndex:nation withObject:[NSNumber numberWithInt:self.costOfNation]];
-    self.increaseOfNation +=  20;
-    [self.increaseArray replaceObjectAtIndex:nation withObject:[NSNumber numberWithInt:self.increaseOfNation]];
-    [self updateItemCupcakeRate];
-}
+    NSTimer *incrementTimer = [self invalidateTimerForItem: item];
+    incrementTimer = [NSTimer scheduledTimerWithTimeInterval:defaultTime/ itemCount.floatValue target:self selector:@selector(makeCupcakesForItem:) userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:item] , @"item", nil] repeats:YES];
+    [self.timerArray replaceObjectAtIndex:item withObject:incrementTimer];
 
--(void)incrementPortal{
+}
+-(void) updateCostValuesForItem: (items) item{
     
-    if((self.cupcakes.intValue + self.costOfPortal) < 0){
-        if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didRejectPurchaseOf:) ]){
-            [self.delegate CupcakesAndGoodThings:self didRejectPurchaseOf:[NSNumber numberWithInt:portal]];
-        }
-        return;
+    int costIncrease;
+    int increaseIncrease;
+    
+    int currentNumberOfItems = [(NSNumber*)self.itemArray[item] intValue];
+    
+    switch (item) {
+        case clicker:
+            costIncrease = (currentNumberOfItems % 5) == 0 ? 1 : 0;
+            increaseIncrease = (currentNumberOfItems % 5) == 0 ? -1 : 0;
+            break;
+        case girlScout:
+            costIncrease = 1;
+            increaseIncrease = 1;
+            break;
+        case grandma:
+            costIncrease = 5;
+            increaseIncrease = 5;
+            break;
+        case ninja:
+            costIncrease = 15;
+            increaseIncrease = (currentNumberOfItems % 5) == 0 ? 1 : 0;
+            break;
+        case factory:
+            costIncrease = 100;
+            increaseIncrease = 10;
+            break;
+        case nation:
+            costIncrease = 1000;
+            increaseIncrease = 55;
+            break;
+        case portal:
+            costIncrease = 40000;
+            increaseIncrease = 200;
+            break;
+        default:
+            break;
     }
     
-    [self increaseCupcakesBy:[NSNumber numberWithDouble:self.costOfPortal]asUserClick:NO];
+    NSNumber *currentCost = self.costArray[item];
+    [self.costArray replaceObjectAtIndex:item withObject:[NSNumber numberWithInt:currentCost.intValue + costIncrease]];
+
+    NSNumber *currentIncrease = self.increaseArray[item];
+    [self.increaseArray replaceObjectAtIndex:item withObject:[NSNumber numberWithInt:currentIncrease.intValue + increaseIncrease]];
+}
+-(NSTimer *) invalidateTimerForItem: (items) item{
+    if(self.timerArray[item] && ([self.timerArray[item] isKindOfClass:[NSTimer class] ])){
+        NSTimer *objectTimer = self.timerArray[item];
+        [objectTimer invalidate];
+        return objectTimer;
+    }
     
-    self.portals ++;
-    [self.portalTimer invalidate];
-    self.portalTimer = [NSTimer scheduledTimerWithTimeInterval:(float)20/(float)self.portals target:self selector:@selector(portalMadeCupcakes) userInfo:nil repeats:YES] ;
-    self.costOfPortal -= 10000;
-    [self.costArray replaceObjectAtIndex:portal withObject:[NSNumber numberWithInt:self.costOfPortal]];
-    self.increaseOfPortal +=  75;
-    [self.increaseArray replaceObjectAtIndex:portal withObject:[NSNumber numberWithInt:self.increaseOfPortal]];
-    [self updateItemCupcakeRate];
+    return [[NSTimer alloc] init];
 }
 
 #pragma helpers
@@ -315,46 +217,76 @@ static id instance = nil;
 -(void)updateItemCupcakeRate{
     
     float timesPerSecond;
-    int countOfItems;
+    NSNumber *countOfItems;
     self.cupcakesRateByItem=0;
     for(int x=0; x < self.increaseArray.count; x++){
         
         switch (x) {
             case clicker:
                 timesPerSecond = 10.0f;
-                countOfItems = self.clickers;
+                countOfItems = self.itemArray[x];
                 break;
             case girlScout:
                 timesPerSecond = 10.0f;
-                countOfItems = self.girlScouts;
+                countOfItems = self.itemArray[x];
                 break;
             case grandma:
                 timesPerSecond = 10.0f;
-                countOfItems = self.grandmas;
+                countOfItems = self.itemArray[grandma];
                 break;
             case ninja:
                 timesPerSecond = 0.8f;
-                countOfItems = self.ninjas;
+                countOfItems = self.itemArray[ninja];
                 break;
             case factory:
                 timesPerSecond = 15.0f;
-                countOfItems = self.factories;
+                countOfItems = self.itemArray[factory];
                 break;
             case nation:
                 timesPerSecond = 30.0f;
-                countOfItems = self.nations;
+                countOfItems = self.itemArray[nation];
                 break;
             case portal:
                 timesPerSecond = 20.0f;
-                countOfItems = self.portals;
+                countOfItems = self.itemArray[x];
                 break;
             default:
                 timesPerSecond= 10.0f;
                 break;
         }
-        NSNumber *increase = self.increaseArray[x];
-        self.cupcakesRateByItem += countOfItems * (increase.floatValue /timesPerSecond);
+        self.cupcakesRateByItem += countOfItems.floatValue * ([(NSNumber*)self.increaseArray[x] floatValue] /timesPerSecond);
         
     }
 }
+-(NSString*) getFriendlyNameForItem: (items) item{
+    NSString *result = @"";
+    
+    switch(item) {
+        case clicker:
+            result = @"Clicker";
+        case girlScout:
+            result = @"Girl Scout";
+            break;
+        case grandma:
+            result = @"Grandma";
+            break;
+        case ninja:
+            result = @"Ninja";
+            break;
+        case factory:
+            result = @"Factory";
+            break;
+        case nation:
+            result = @"Nation";
+            break;
+        case portal:
+            result = @"Portal";
+            break;
+        default:
+            [NSException raise:NSGenericException format:@"Unexpected FormatType."];
+    }
+    
+    return result;
+}
+
 @end
