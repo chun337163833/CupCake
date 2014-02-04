@@ -81,58 +81,36 @@
 -(void)setUpMenu{
     [CCMenuItemFont setFontSize:15];
     
-    CCMenuItem *clickerButton = [CCMenuItemFont itemWithString:@"Clicker" block:^(id sender) {
-        [[CupcakesAndGoodThings sharedInstance] incrementItem:clicker];
-        [self addCursor];
-    }];
+    CCMenuItem *clickerButton = [CCMenuItemFont itemWithString:@"Clicker" target:self selector:@selector(menuButtonClicked:)];
     clickerButton.position = ccp(0,200);
+    clickerButton.tag = clicker;
     
-    
-    CCMenuItem *girlScoutButton = [CCMenuItemFont itemWithString:@"GirlScout" block:^(id sender) {
-        [[CupcakesAndGoodThings sharedInstance] incrementItem:girlScout];
-        [self incrementMenuViewItems:girlScout];
-    }];
+    CCMenuItem *girlScoutButton = [CCMenuItemFont itemWithString:@"GirlScout" target:self selector:@selector(menuButtonClicked:)];
 
     girlScoutButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * girlScout);
-
+    girlScoutButton.tag = girlScout;
     
-    CCMenuItem *grandmaButton = [CCMenuItemFont itemWithString:@"Grandma" block:^(id sender) {
-        
-        [[CupcakesAndGoodThings sharedInstance] incrementItem:grandma];
-        [self incrementMenuViewItems:grandma];
-    }];
+    CCMenuItem *grandmaButton = [CCMenuItemFont itemWithString:@"Grandma" target:self selector:@selector(menuButtonClicked:)];
 
     grandmaButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * grandma);
+    grandmaButton.tag = grandma;
     
-    
-    CCMenuItem *ninjaButton = [CCMenuItemFont itemWithString:@"Ninja" block:^(id sender) {
-        [[CupcakesAndGoodThings sharedInstance] incrementItem:ninja];
-        [self incrementMenuViewItems:ninja];
-    }];
+    CCMenuItem *ninjaButton = [CCMenuItemFont itemWithString:@"Ninja" target:self selector:@selector(menuButtonClicked:)];
     ninjaButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * ninja);
+    ninjaButton.tag = ninja;
     
-    
-    CCMenuItem *factoryButton = [CCMenuItemFont itemWithString:@"Factory" block:^(id sender) {
-        
-        [[CupcakesAndGoodThings sharedInstance] incrementItem:factory];
-        [self incrementMenuViewItems:factory];
-    }];
+    CCMenuItem *factoryButton = [CCMenuItemFont itemWithString:@"Factory" target:self selector:@selector(menuButtonClicked:)];
     
     factoryButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * factory);
+    factoryButton.tag = factory;
     
-    
-    CCMenuItem *planetButton = [CCMenuItemFont itemWithString:@"Planet" block:^(id sender) {
-        [[CupcakesAndGoodThings sharedInstance] incrementItem:nation];
-        [self incrementMenuViewItems:nation];
-    }];
+    CCMenuItem *planetButton = [CCMenuItemFont itemWithString:@"Planet" target:self selector:@selector(menuButtonClicked:)];
     planetButton.position = ccp(0, 200 - ITEM_BUTTON_SEPERATION * nation);
+    planetButton.tag = nation;
     
-    CCMenuItem *portalButton = [CCMenuItemFont itemWithString:@"Portal" block:^(id sender) {
-        [[CupcakesAndGoodThings sharedInstance] incrementItem:portal];
-        [self incrementMenuViewItems:portal];
-    }];
+    CCMenuItem *portalButton = [CCMenuItemFont itemWithString:@"Portal" target:self selector:@selector(menuButtonClicked:)];
     portalButton.position = ccp(0, 200 - ITEM_BUTTON_SEPERATION * portal);
-    
+    portalButton.tag = portal;
     
     
     self.mainMenu = [CCMenu menuWithItems:clickerButton, girlScoutButton, grandmaButton, ninjaButton, factoryButton, planetButton, portalButton, nil];
@@ -140,6 +118,11 @@
     [self.mainMenu setPosition:ccp(40, self.mainMenu.position.y -200)];
     [self addChild:self.mainMenu];
     [self addChild:[self createMenuLabels]];
+}
+
+-(void) menuButtonClicked:(CCMenuItem*)item {
+    [[CupcakesAndGoodThings sharedInstance] incrementItem:item.tag];
+    [self incrementMenuViewItems:item.tag];
 }
 
 - (CCLayer*) createMenuLabels{
@@ -154,11 +137,11 @@
         [items addChild:itemLabel];
         
         
-//        NSNumber *numberOfItems = [[CupcakesAndGoodThings sharedInstance] itemArray][x] ;
-//        CCLabelTTF *numberOfItemsLabel  = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d", numberOfItems.intValue] fontName:@"Arial" fontSize:13.0f];
-//        [itemLabel setPosition:ccp(40,260 - ITEM_BUTTON_SEPERATION * x)];
-//        [itemLabel setColor:(ccc3(255, 105, 180))];
-//        [items addChild:numberOfItemsLabel];
+        NSNumber *numberOfItems = [[CupcakesAndGoodThings sharedInstance] itemArray][x] ;
+        CCLabelTTF *numberOfItemsLabel  = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"x%d", numberOfItems.intValue] fontName:@"Arial" fontSize:13.0f];
+        [numberOfItemsLabel setPosition:ccp(50,265 - ITEM_BUTTON_SEPERATION * x)];
+        [numberOfItemsLabel setColor:(ccc3(255, 105, 180))];
+        [items addChild:numberOfItemsLabel];
     }
     return items;
 }

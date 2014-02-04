@@ -11,8 +11,6 @@
 //#import "CupcakesAndGoodThings.h"
 #import "cocos2d.h"
 #import "GameLayer.h"
-#import "CupcakeView.h"
-
 @interface ViewController  : UIViewController <CCDirectorDelegate>{
     
 }
@@ -24,5 +22,4 @@
 
 //extern enum PurchaseItems;
 
-@property (strong, nonatomic) IBOutlet CupcakeView *mainView;
 @end
