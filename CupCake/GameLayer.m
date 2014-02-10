@@ -12,16 +12,11 @@
 #import "CCScrollLayer.h"
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
-
+#import "ItemScrollLayer.h"
+#import "AnimationUtil.h"
 #define IPHONE_SCREEN_CENTER 160.0f
 #define CURSOR_RADIUS 75.0f
 #define CURSOR_SIZE 25.0f
-#define ITEM_SIZE 20.0f
-
-#define ITEM_BUTTON_OFFSET_Y 285.0f
-#define ITEM_BUTTON_OFFSET_X 80.0f
-#define ITEM_BUTTON_SEPERATION 40.0f
-
 #pragma mark - HelloWorldLayer
 
 // HelloWorldLayer implementation
@@ -56,6 +51,7 @@
         [self setUpMenu];
         [self setUpCupcakeButton];
         [self setUpMisc];
+        [self setUpArrays];
     }
 	return self;
 }
@@ -87,29 +83,29 @@
     
     CCMenuItem *girlScoutButton = [CCMenuItemFont itemWithString:@"GirlScout" target:self selector:@selector(menuButtonClicked:)];
 
-    girlScoutButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * girlScout);
+    girlScoutButton.position = ccp(0,200 - itemButtonSeperation * girlScout);
     girlScoutButton.tag = girlScout;
     
     CCMenuItem *grandmaButton = [CCMenuItemFont itemWithString:@"Grandma" target:self selector:@selector(menuButtonClicked:)];
 
-    grandmaButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * grandma);
+    grandmaButton.position = ccp(0,200 - itemButtonSeperation * grandma);
     grandmaButton.tag = grandma;
     
     CCMenuItem *ninjaButton = [CCMenuItemFont itemWithString:@"Ninja" target:self selector:@selector(menuButtonClicked:)];
-    ninjaButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * ninja);
+    ninjaButton.position = ccp(0,200 - itemButtonSeperation * ninja);
     ninjaButton.tag = ninja;
     
     CCMenuItem *factoryButton = [CCMenuItemFont itemWithString:@"Factory" target:self selector:@selector(menuButtonClicked:)];
     
-    factoryButton.position = ccp(0,200 - ITEM_BUTTON_SEPERATION * factory);
+    factoryButton.position = ccp(0,200 - itemButtonSeperation * factory);
     factoryButton.tag = factory;
     
     CCMenuItem *planetButton = [CCMenuItemFont itemWithString:@"Planet" target:self selector:@selector(menuButtonClicked:)];
-    planetButton.position = ccp(0, 200 - ITEM_BUTTON_SEPERATION * nation);
+    planetButton.position = ccp(0, 200 - itemButtonSeperation * nation);
     planetButton.tag = nation;
     
     CCMenuItem *portalButton = [CCMenuItemFont itemWithString:@"Portal" target:self selector:@selector(menuButtonClicked:)];
-    portalButton.position = ccp(0, 200 - ITEM_BUTTON_SEPERATION * portal);
+    portalButton.position = ccp(0, 200 - itemButtonSeperation * portal);
     portalButton.tag = portal;
     
     
@@ -120,27 +116,47 @@
     [self addChild:[self createMenuLabels]];
 }
 
+- (void)setCostAndCountValues:(int)item {
+    NSNumber *numberOfItems = [[CupcakesAndGoodThings sharedInstance] itemArray][item] ;
+    if(numberOfItems == 0) return;
+    NSNumber *costOfItems = [[CupcakesAndGoodThings sharedInstance] costArray][item] ;
+    
+    CCLabelTTF *numberOfItemsLabel  = self.itemCountLabels[item];
+    [numberOfItemsLabel setString:[NSString stringWithFormat:@"x%d", numberOfItems.intValue]];
+    
+    CCLabelTTF *costOfItemsLabels  = self.itemCostLabels[item];
+    [costOfItemsLabels setString:[NSString stringWithFormat:@"%d", -1 * costOfItems.intValue]];
+}
+
 -(void) menuButtonClicked:(CCMenuItem*)item {
     [[CupcakesAndGoodThings sharedInstance] incrementItem:item.tag];
     [self incrementMenuViewItems:item.tag];
+    [self setCostAndCountValues:item.tag];
+
 }
 
 - (CCLayer*) createMenuLabels{
  
     CCLayer* items = [[CCLayer alloc] init];
+    self.itemCountLabels= [[NSMutableArray alloc] init];
+    self.itemCostLabels= [[NSMutableArray alloc] init];
+
     for(int x = 0; x < numObjects; x ++){
         NSNumber *costOfItem = [[CupcakesAndGoodThings sharedInstance] costArray][x] ;
         
         CCLabelTTF *itemLabel  = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d",-1 * costOfItem.intValue] fontName:@"Arial" fontSize:13.0f];
-        [itemLabel setPosition:ccp(40,260 - ITEM_BUTTON_SEPERATION * x)];
+        [itemLabel setPosition:ccp(40,260 - itemButtonSeperation * x)];
         [itemLabel setColor:(ccc3(255, 105, 180))];
+        [self.itemCostLabels addObject:itemLabel];
         [items addChild:itemLabel];
         
-        
-        NSNumber *numberOfItems = [[CupcakesAndGoodThings sharedInstance] itemArray][x] ;
-        CCLabelTTF *numberOfItemsLabel  = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"x%d", numberOfItems.intValue] fontName:@"Arial" fontSize:13.0f];
-        [numberOfItemsLabel setPosition:ccp(50,265 - ITEM_BUTTON_SEPERATION * x)];
-        [numberOfItemsLabel setColor:(ccc3(255, 105, 180))];
+        NSNumber *numberOfItems = [[CupcakesAndGoodThings sharedInstance] itemArray][x];
+        NSString *countString = @"";
+        if(numberOfItems.intValue > 0)[NSString stringWithFormat:@"x%d", numberOfItems.intValue];
+        CCLabelTTF *numberOfItemsLabel  = [CCLabelTTF labelWithString:countString fontName:@"Arial" fontSize:13.0f];
+        [numberOfItemsLabel setPosition:ccp(65,280 - itemButtonSeperation * x)];
+        [numberOfItemsLabel setColor:(ccc3(45, 136, 206))];
+        [self.itemCountLabels addObject:numberOfItemsLabel];
         [items addChild:numberOfItemsLabel];
     }
     return items;
@@ -153,8 +169,8 @@
     self.cupcakeButton.position = ccp(0, 160);
     [self.cupcakeButton setScale:0.18];
     
-    CCMenu *menu = [CCMenu menuWithItems:self.cupcakeButton, nil];
-    [self addChild:menu];
+    self.cupcakeMenu = [CCMenu menuWithItems:self.cupcakeButton, nil];
+    [self addChild:self.cupcakeMenu];
 }
 
 -(void) setUpMisc{
@@ -166,7 +182,20 @@
     [self.cupcakeCountLabel setPosition:ccp(160,535)];
     [self addChild:self.cupcakeCountLabel];
     [cupcakeIcon setPosition:ccp(110,535)];
-    [self addChild:cupcakeIcon];
+//    [self addChild:cupcakeIcon];
+}
+
+-(void) setUpArrays{
+    
+    if(!self.cursorsAdded) self.cursorsAdded = [[NSMutableArray alloc] init];
+    if(!self.grandmasAdded) self.grandmasAdded = [[NSMutableArray alloc] init];
+    if(!self.girlScoutsAdded) self.girlScoutsAdded = [[NSMutableArray alloc] init];
+    if(!self.ninjasAdded) self.ninjasAdded = [[NSMutableArray alloc] init];
+    if(!self.factoriesAdded) self.factoriesAdded = [[NSMutableArray alloc] init];
+    if(!self.nationsAdded) self.nationsAdded = [[NSMutableArray alloc] init];
+    if(!self.portalsAdded) self.portalsAdded = [[NSMutableArray alloc] init];
+    if(!self.itemsAddedArray) self.itemsAddedArray = [[NSMutableArray alloc] init];
+    [self.itemsAddedArray addObjectsFromArray:[NSArray arrayWithObjects:self.cursorsAdded,self.girlScoutsAdded,self.grandmasAdded,self.ninjasAdded,self.factoriesAdded, self.nationsAdded, self.portalsAdded, nil]];
 }
 
 #pragma mark cupcake button
@@ -195,7 +224,7 @@
 
 #pragma mark Item Scroll View
 -(void) setUpItemScrollView{
-    self.itemScrollLayer = [[CCLayer alloc] init];
+    self.itemScrollLayer = [[ItemScrollLayer alloc] init];
     [self addChild:self.itemScrollLayer];
 }
 
@@ -229,112 +258,93 @@
 }
 
 -(void) incrementMenuViewItems:(int) itemIndex {
+    if(itemIndex == clicker) {
+        [self addCursor];
+        return;
+    }
+    
     NSMutableArray *listOfAlreadyAddedItems;
     NSNumber *numberOfItems;
     CCSprite *itemSprite;
     float customScale =1;
     
     numberOfItems = [[CupcakesAndGoodThings sharedInstance] itemArray][itemIndex];
+    if(numberOfItems.intValue <= 0) return;
+    
     switch(itemIndex){
            case girlScout:
-            if(!self.girlScoutsAdded) self.girlScoutsAdded = [[NSMutableArray alloc] init];
-            listOfAlreadyAddedItems = self.girlScoutsAdded;
             customScale = 0.25f;
             itemSprite = [[CCSprite alloc] initWithFile:@"girlWithCupcake.png"];
             break;
         case grandma:
-            if(!self.grandmasAdded) self.grandmasAdded = [[NSMutableArray alloc] init];
-            listOfAlreadyAddedItems = self.grandmasAdded;
             customScale = 0.125f;
             itemSprite = [[CCSprite alloc] initWithFile:@"grandma.png"];
             break;
         case ninja:
-            if(!self.ninjasAdded) self.ninjasAdded = [[NSMutableArray alloc] init];
-            listOfAlreadyAddedItems = self.ninjasAdded;
             customScale = 1.19f;
             itemSprite = [[CCSprite alloc] initWithFile:@"ninjaDown.png"];
             break;
         case factory:
-            if(!self.factoriesAdded) self.factoriesAdded = [[NSMutableArray alloc] init];
-            listOfAlreadyAddedItems = self.factoriesAdded;
             customScale = 0.22f;
             itemSprite = [[CCSprite alloc] initWithFile:@"factory.png"];
             break;
         case nation:
-            if(!self.nationsAdded) self.nationsAdded = [[NSMutableArray alloc] init];
-            listOfAlreadyAddedItems = self.nationsAdded;
             customScale = 0.1f;
             itemSprite = [[CCSprite alloc] initWithFile:@"nationIcon.png"];
             break;
         case portal:
-            if(!self.portalsAdded) self.portalsAdded = [[NSMutableArray alloc] init];
-            listOfAlreadyAddedItems = self.portalsAdded;
             customScale = 0.06f;
             itemSprite = [[CCSprite alloc] initWithFile:@"portal.png"];
             break;
         default:
             return;
     }
-    
-    if(numberOfItems.intValue <= 0) return;
-    [self addSpriteObject:itemSprite withScale: customScale usingAlreadyAddedArray:listOfAlreadyAddedItems nextToButtonIndex:itemIndex];
+    listOfAlreadyAddedItems = self.itemsAddedArray[itemIndex];
+    [self.itemScrollLayer addSpriteObject:itemSprite withScale: customScale usingAlreadyAddedArray:listOfAlreadyAddedItems nextToButtonIndex:itemIndex];
 }
-
--(void) addSpriteObject:(CCSprite *) itemToAdd withScale:(float)customScale usingAlreadyAddedArray:(NSMutableArray *) listOfAddedItems nextToButtonIndex:(int) buttonIndex{
+#pragma mark Animations
+-(void) animateClickerWithAlreadyIncreasedCount:(int)x withIncreaseAmount: (NSNumber *)cupcakes{
+    CCSprite *cursor = self.cursorsAdded[x%self.cursorsAdded.count];
+    CGPoint cupcakePosition = CGPointMake(self.cupcakeMenu.position.x + self.cupcakeButton.position.x, self.cupcakeMenu.position.y + self.cupcakeButton.position.y);
+    CGPoint cursorHitMovement = CGPointMake((cupcakePosition.x - cursor.position.x) * 0.5, (cupcakePosition.y - cursor.position.y)*0.5);
     
-    int lineNumber = floor(((ITEM_SIZE +2) * listOfAddedItems.count)/240);
-    int itemsOnLine = listOfAddedItems.count % 11;
+    CCMoveBy *slideToMiddle = [CCMoveBy actionWithDuration:1 position:ccp(cursorHitMovement.x, cursorHitMovement.y)];
+    CCMoveBy *slideBack = [CCMoveBy actionWithDuration:1 position:ccp(-cursorHitMovement.x, -cursorHitMovement.y)];
     
-    itemToAdd.position = ccp(ITEM_BUTTON_OFFSET_X + itemsOnLine * (ITEM_SIZE + 2), ITEM_BUTTON_OFFSET_Y - ITEM_SIZE * (lineNumber %2) - ITEM_BUTTON_SEPERATION * buttonIndex);
-    [itemToAdd setScale:customScale];
-  
-    [self.itemScrollLayer addChild:itemToAdd];
-    [self.itemScrollLayer setPosition:ccp(0,0)];
-    [listOfAddedItems addObject:itemToAdd];
-    NSLog(@"list %d", listOfAddedItems.count);
+    CCSequence* sequence = [CCSequence actions: slideToMiddle,slideBack, nil];
     
+    CCEaseInOut* ease = [CCEaseInOut actionWithAction:sequence rate:4];
+    [cursor runAction:ease];
     
-//    CGRect worldBoundary = CGRectMake(0, 0, 360, 360);
-//    [self.itemScrollLayer runAction:[CCFollow actionWithTarget:itemToAdd worldBoundary:worldBoundary]];
-    
-    
+    CGPoint increaseLabelPoint = CGPointMake(cupcakePosition.x - cursorHitMovement.x, cupcakePosition.y - cursorHitMovement.y);
+    [AnimationUtil animateClickerForCupcakes:cupcakes atPostion:increaseLabelPoint andAddItToLayer:self];
 }
-
-
-//- (void) addImage: (UIImageView *) itemToAdd usingAlreadyAddedArray: (NSMutableArray *) listOfAddedItems nextToButton: (UIButton *) button{
-//    
-//    int lineNumber = floor((ITEM_SIZE * listOfAddedItems.count)/self.createdItemsScrollView.frame.size.width);
-//    
-//    int itemsOnLine = listOfAddedItems.count % 12;
-//    int xValueOfNewItem;
-//    
-//    
-//    if(itemsOnLine !=0){
-//        xValueOfNewItem = CGRectGetMaxX([(UIView *)[listOfAddedItems lastObject] frame]);
-//    }
-//    else{
-//        xValueOfNewItem = (self.createdItemsScrollView.frame.size.width + ITEM_SIZE) * floor(lineNumber/2) + 6 * (lineNumber%2);
-//    }
-//    
-//    itemToAdd.frame = CGRectMake(xValueOfNewItem,
-//                                 
-//                                 button.frame.origin.y + ITEM_SIZE * (lineNumber%2),
-//                                 
-//                                 ITEM_SIZE,
-//                                 
-//                                 ITEM_SIZE);
-//    
-//    [self.createdItemsScrollView addSubview:itemToAdd];
-//    [listOfAddedItems addObject:itemToAdd];
-//    
-//    self.createdItemsScrollView.contentSize = CGSizeMake(MAX(self.createdItemsScrollView.contentSize.width, CGRectGetMaxX(itemToAdd.frame)), self.createdItemsScrollView.contentSize.height);
-//}
-//
 
 #pragma mark Cupcake And Good Things Delegate
 - (void) CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didUpdateCupcakesTo:(NSNumber *)newCupcakeValue{
     [self.cupcakeCountLabel setString:[NSString stringWithFormat:@"%d",[[[CupcakesAndGoodThings sharedInstance] cupcakes] intValue]]];
 //    [self.cupcakeCountLabel setCString:[[NSString stringWithFormat:@"%d",[[[CupcakesAndGoodThings sharedInstance] cupcakes] intValue]] cStringUsingEncoding:NULL]];
+}
+-(void) CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance item:(items)purchaseItem didCreateTheseManyCupcakes:(NSNumber *)cupcakes theseManyTimes:(int)x{
+    if(purchaseItem == clicker){
+        [self animateClickerWithAlreadyIncreasedCount:x withIncreaseAmount: cupcakes];
+        return;
+    }
+    [self.itemScrollLayer displayCupcakeIncreasedForItem:purchaseItem withAlreadyIncreasedCount:x withAlreadyAddedArray:self.itemsAddedArray[purchaseItem] byAmount:cupcakes];
+    return;
+    
+}
+
+-(void)CupcakesAndGoodThingsdidLoadState:(CupcakesAndGoodThings *)instance{
+    [self.cupcakeCountLabel setString:[NSString stringWithFormat:@"%d",[[[CupcakesAndGoodThings sharedInstance] cupcakes] intValue]]];
+    
+    for(int x = 0; x < numObjects; x ++){
+        NSNumber * items = [[CupcakesAndGoodThings sharedInstance] itemArray][x];
+        [self setCostAndCountValues:x];
+        for(int y = 0; y < items.intValue; y++){
+            [self incrementMenuViewItems:x];
+        }
+    }
 }
 
 @end

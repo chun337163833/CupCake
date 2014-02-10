@@ -12,6 +12,8 @@
 // When you import this file, you import all the cocos2d classes
 #import "cocos2d.h"
 #import "CCScrollLayer.h"
+#import "ItemScrollLayer.h"
+#import "AnimationUtil.h"
 // HelloWorldLayer
 
 @interface GameLayer : CCLayer <CupcakesAndGoodThingsDelegate>
@@ -22,8 +24,9 @@
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 @property (nonatomic, weak) CCMenuItemSprite *cupcakeButton;
+@property (nonatomic, weak) CCMenu *cupcakeMenu;
 @property (nonatomic, weak) CCMenu *mainMenu;
-@property (nonatomic, strong) CCLayer *itemScrollLayer;
+@property (nonatomic, strong) ItemScrollLayer *itemScrollLayer;
 @property (nonatomic, weak) CCLabelBMFont *cupcakeCountLabel;;
 
 
@@ -34,6 +37,11 @@
 @property (strong, nonatomic) NSMutableArray *ninjasAdded;
 @property (strong, nonatomic) NSMutableArray *nationsAdded;
 @property (strong, nonatomic) NSMutableArray *portalsAdded;
+
+@property (strong, nonatomic) NSMutableArray *itemsAddedArray;
+
+@property (strong, nonatomic) NSMutableArray *itemCostLabels;
+@property (strong, nonatomic) NSMutableArray *itemCountLabels;
 
 
 

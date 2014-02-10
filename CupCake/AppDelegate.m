@@ -144,6 +144,7 @@
 {
 	if( [navController_ visibleViewController] == director_ )
 		[director_ pause];
+    [DataUtil saveArrayToUserDefaults];
 }
 
 // call got rejected
@@ -152,6 +153,7 @@
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];	
 	if( [navController_ visibleViewController] == director_ )
 		[director_ resume];
+    [DataUtil loadArrayFromUserDefaults];
 }
 
 -(void) applicationDidEnterBackground:(UIApplication*)application

@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "cocos2d.h"
-
+#import "CupcakesAndGoodThings.h"
+#import "DataUtil.h"
+#import "GameLayer.h"
 // Added only for iOS 6 support
 @interface MyNavigationController : UINavigationController <CCDirectorDelegate>
 @end

@@ -10,17 +10,29 @@
 
 @class CupcakesAndGoodThings;
 @protocol CupcakesAndGoodThingsDelegate <NSObject>
+
+typedef enum {
+    clicker,
+    girlScout,
+    grandma,
+    ninja,
+    factory,
+    nation,
+    portal,
+    numObjects
+}items;
+
+
 @optional
 - (void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didUpdateCupcakesTo:(NSNumber*)newCupcakeValue;
 - (void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didRejectPurchaseOf:(NSNumber*)itemPurchased;
 - (BOOL)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didUpdateCupcakeRateTo:(NSNumber*)cupcakeRate withTheseManyClicksThisSecond: (int) thisSecondClicks;
-- (void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance item:(NSNumber*)purchaseItem didCreateTheseManyCupcakes:(NSNumber *)cupcakes theseManyTimes: (int) n;
-
+- (void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance item:(items)purchaseItem didCreateTheseManyCupcakes:(NSNumber *)cupcakes theseManyTimes: (int) x;
+-(void)CupcakesAndGoodThingsdidLoadState:(CupcakesAndGoodThings *)instance;
 @end
 
-@interface CupcakesAndGoodThings : NSObject{
-//        id <CupcakesAndGoodThingsDelegate> delegate;
-}
+
+@interface CupcakesAndGoodThings : NSObject;
 
 @property (nonatomic, assign) id <CupcakesAndGoodThingsDelegate> delegate;
 
@@ -35,23 +47,13 @@
 
 + (CupcakesAndGoodThings *) sharedInstance;
 -(void) increaseCupcakesBy:(NSNumber *)amount asUserClick: (BOOL) userClick;
-
-typedef enum {
-    clicker,
-    girlScout,
-    grandma,
-    ninja,
-    factory,
-    nation,
-    portal,
-    numObjects
-}items;
-
 -(void) incrementItem: (items) item;
+-(void)setSavedValuesWithArray: (NSArray *) arrayOfValues;
+-(NSArray *)getGameValues;
+    
 @property (nonatomic,strong) NSMutableArray* animatedCountArray;
 
-
-@property (nonatomic,strong) NSMutableArray* cupcakesInSeconds;
+@property (nonatomic,strong) NSMutableArray* cupcakesPerSeconds;
 @property (nonatomic, strong) NSTimer *cupcakePerMinuteTimer;
 @property (nonatomic) float cupcakesMadeThisSecondByUser;
 @property (nonatomic) float cupcakesRateByItem;

@@ -7,13 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76191EA518839D7C00A33595 /* sky_background_with_clouds.png in Resources */ = {isa = PBXBuildFile; fileRef = 76191EA318839D7C00A33595 /* sky_background_with_clouds.png */; };
+		76191EA618839D7C00A33595 /* sky_without_clouds.png in Resources */ = {isa = PBXBuildFile; fileRef = 76191EA418839D7C00A33595 /* sky_without_clouds.png */; };
 		7691F6FA1830842900D7B07F /* CCScrollLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7691F5AB1830842900D7B07F /* CCScrollLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7691F6FB1830842900D7B07F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7691F5AC1830842900D7B07F /* README.md */; };
 		7691F89018308F1B00D7B07F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7691F88F18308F1B00D7B07F /* MobileCoreServices.framework */; };
 		76B14F04188237A60056F9A4 /* portal.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B14F03188237A60056F9A4 /* portal.png */; };
 		76B14F0618823DD90056F9A4 /* backgroundCupcake2.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B14F0518823DD90056F9A4 /* backgroundCupcake2.png */; };
 		76B14F081882417E0056F9A4 /* backgroundCupcake3.png in Resources */ = {isa = PBXBuildFile; fileRef = 76B14F071882417E0056F9A4 /* backgroundCupcake3.png */; };
-		76B14F0C188244960056F9A4 /* sky.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 76B14F0B188244960056F9A4 /* sky.jpeg */; };
+		76B7898118A6BBB40015F72B /* ItemScrollLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B7898018A6BBB40015F72B /* ItemScrollLayer.m */; };
+		76D6184F18A7F5C1001115AC /* AnimationUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D6184E18A7F5C1001115AC /* AnimationUtil.m */; };
+		76D6185218A81533001115AC /* DataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D6185118A81533001115AC /* DataUtil.m */; };
 		B06FDB06181F51D7003B3855 /* 120120bluecupcale.png in Resources */ = {isa = PBXBuildFile; fileRef = B06FDACC181F51D7003B3855 /* 120120bluecupcale.png */; };
 		B06FDB07181F51D7003B3855 /* Abstract_Background_5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B06FDACD181F51D7003B3855 /* Abstract_Background_5.jpg */; };
 		B06FDB08181F51D7003B3855 /* blueCupcake.png in Resources */ = {isa = PBXBuildFile; fileRef = B06FDACE181F51D7003B3855 /* blueCupcake.png */; };
@@ -67,7 +71,6 @@
 		B06FDB38181F51D7003B3855 /* yellowStreakedBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B06FDB04181F51D7003B3855 /* yellowStreakedBackground.jpg */; };
 		B06FDB39181F51D7003B3855 /* yellowStreakedBackground.jpg.html in Resources */ = {isa = PBXBuildFile; fileRef = B06FDB05181F51D7003B3855 /* yellowStreakedBackground.jpg.html */; };
 		B06FDB46181F56DF003B3855 /* CupcakesAndGoodThings.m in Sources */ = {isa = PBXBuildFile; fileRef = B06FDB43181F56DF003B3855 /* CupcakesAndGoodThings.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		B06FDB47181F56DF003B3855 /* CupcakeView.m in Sources */ = {isa = PBXBuildFile; fileRef = B06FDB45181F56DF003B3855 /* CupcakeView.m */; };
 		B0DBD650181DFD580059ED1C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0DBD64F181DFD580059ED1C /* QuartzCore.framework */; };
 		B0DBD652181DFD580059ED1C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0DBD651181DFD580059ED1C /* OpenGLES.framework */; };
 		B0DBD654181DFD580059ED1C /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0DBD653181DFD580059ED1C /* OpenAL.framework */; };
@@ -206,6 +209,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		76191EA318839D7C00A33595 /* sky_background_with_clouds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky_background_with_clouds.png; sourceTree = "<group>"; };
+		76191EA418839D7C00A33595 /* sky_without_clouds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky_without_clouds.png; sourceTree = "<group>"; };
 		7691F5AA1830842900D7B07F /* CCScrollLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollLayer.h; sourceTree = "<group>"; };
 		7691F5AB1830842900D7B07F /* CCScrollLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScrollLayer.m; sourceTree = "<group>"; };
 		7691F5AC1830842900D7B07F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -213,7 +218,12 @@
 		76B14F03188237A60056F9A4 /* portal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = portal.png; sourceTree = "<group>"; };
 		76B14F0518823DD90056F9A4 /* backgroundCupcake2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundCupcake2.png; sourceTree = "<group>"; };
 		76B14F071882417E0056F9A4 /* backgroundCupcake3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundCupcake3.png; sourceTree = "<group>"; };
-		76B14F0B188244960056F9A4 /* sky.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sky.jpeg; sourceTree = "<group>"; };
+		76B7897F18A6BBB40015F72B /* ItemScrollLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemScrollLayer.h; sourceTree = "<group>"; };
+		76B7898018A6BBB40015F72B /* ItemScrollLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemScrollLayer.m; sourceTree = "<group>"; };
+		76D6184D18A7F5C1001115AC /* AnimationUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationUtil.h; path = Utils/AnimationUtil.h; sourceTree = "<group>"; };
+		76D6184E18A7F5C1001115AC /* AnimationUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimationUtil.m; path = Utils/AnimationUtil.m; sourceTree = "<group>"; };
+		76D6185018A81532001115AC /* DataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataUtil.h; sourceTree = "<group>"; };
+		76D6185118A81533001115AC /* DataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataUtil.m; sourceTree = "<group>"; };
 		B06FDACC181F51D7003B3855 /* 120120bluecupcale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120120bluecupcale.png; sourceTree = "<group>"; };
 		B06FDACD181F51D7003B3855 /* Abstract_Background_5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Abstract_Background_5.jpg; sourceTree = "<group>"; };
 		B06FDACE181F51D7003B3855 /* blueCupcake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueCupcake.png; sourceTree = "<group>"; };
@@ -268,8 +278,6 @@
 		B06FDB05181F51D7003B3855 /* yellowStreakedBackground.jpg.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = yellowStreakedBackground.jpg.html; sourceTree = "<group>"; };
 		B06FDB42181F56DF003B3855 /* CupcakesAndGoodThings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CupcakesAndGoodThings.h; sourceTree = "<group>"; };
 		B06FDB43181F56DF003B3855 /* CupcakesAndGoodThings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CupcakesAndGoodThings.m; sourceTree = "<group>"; };
-		B06FDB44181F56DF003B3855 /* CupcakeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CupcakeView.h; sourceTree = "<group>"; };
-		B06FDB45181F56DF003B3855 /* CupcakeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CupcakeView.m; sourceTree = "<group>"; };
 		B0DBD64C181DFD580059ED1C /* CupCake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CupCake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0DBD64F181DFD580059ED1C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B0DBD651181DFD580059ED1C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -601,10 +609,22 @@
 			path = CCScrollLayer;
 			sourceTree = "<group>";
 		};
+		76D6184C18A7F585001115AC /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				76D6184D18A7F5C1001115AC /* AnimationUtil.h */,
+				76D6184E18A7F5C1001115AC /* AnimationUtil.m */,
+				76D6185018A81532001115AC /* DataUtil.h */,
+				76D6185118A81533001115AC /* DataUtil.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		B06FDACB181F51D7003B3855 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				76B14F0B188244960056F9A4 /* sky.jpeg */,
+				76191EA318839D7C00A33595 /* sky_background_with_clouds.png */,
+				76191EA418839D7C00A33595 /* sky_without_clouds.png */,
 				76B14F071882417E0056F9A4 /* backgroundCupcake3.png */,
 				76B14F0518823DD90056F9A4 /* backgroundCupcake2.png */,
 				76B14F03188237A60056F9A4 /* portal.png */,
@@ -718,8 +738,6 @@
 			children = (
 				B06FDB42181F56DF003B3855 /* CupcakesAndGoodThings.h */,
 				B06FDB43181F56DF003B3855 /* CupcakesAndGoodThings.m */,
-				B06FDB44181F56DF003B3855 /* CupcakeView.h */,
-				B06FDB45181F56DF003B3855 /* CupcakeView.m */,
 			);
 			path = "Cupcake Maker";
 			sourceTree = "<group>";
@@ -764,10 +782,13 @@
 			children = (
 				B06FDB41181F56DF003B3855 /* Cupcake Maker */,
 				B06FDACB181F51D7003B3855 /* Images */,
+				76D6184C18A7F585001115AC /* Utils */,
 				B0DBD802181F3BE20059ED1C /* ViewController.h */,
 				B0DBD803181F3BE20059ED1C /* ViewController.m */,
 				B0DBD7F4181DFD5A0059ED1C /* AppDelegate.h */,
 				B0DBD7F5181DFD5A0059ED1C /* AppDelegate.m */,
+				76B7897F18A6BBB40015F72B /* ItemScrollLayer.h */,
+				76B7898018A6BBB40015F72B /* ItemScrollLayer.m */,
 				B0DBD7F7181DFD5A0059ED1C /* GameLayer.h */,
 				B0DBD7F8181DFD5A0059ED1C /* GameLayer.m */,
 				B0DBD7FA181DFD5A0059ED1C /* IntroLayer.h */,
@@ -1225,7 +1246,6 @@
 				B06FDB10181F51D7003B3855 /* cupCakeBlueNoise.png in Resources */,
 				B06FDB1C181F51D7003B3855 /* cupcake-clipart-blue-raspberry-300x300.png in Resources */,
 				B0DBD7D4181DFD5A0059ED1C /* ChangeLog in Resources */,
-				76B14F0C188244960056F9A4 /* sky.jpeg in Resources */,
 				B06FDB17181F51D7003B3855 /* Abstract_Background_5.jpg in Resources */,
 				B06FDB35181F51D7003B3855 /* purpleFactory.png in Resources */,
 				B06FDB32181F51D7003B3855 /* greenCupcakeBackGround6401036.png in Resources */,
@@ -1266,6 +1286,7 @@
 				B06FDB19181F51D7003B3855 /* App_Showcase_Mockup.psd in Resources */,
 				B0DBD67B181DFD580059ED1C /* iTunesArtwork in Resources */,
 				B06FDB34181F51D7003B3855 /* nationIcon.png in Resources */,
+				76191EA618839D7C00A33595 /* sky_without_clouds.png in Resources */,
 				B0DBD674181DFD580059ED1C /* Icon-Small@2x.png in Resources */,
 				B06FDB2B181F51D7003B3855 /* cursor.png in Resources */,
 				B0DBD66C181DFD580059ED1C /* Default-Landscape~ipad.png in Resources */,
@@ -1274,6 +1295,7 @@
 				7691F6FB1830842900D7B07F /* README.md in Resources */,
 				B06FDB07181F51D7003B3855 /* Abstract_Background_5.jpg in Resources */,
 				B06FDB2E181F51D7003B3855 /* girlWithCupcake.png in Resources */,
+				76191EA518839D7C00A33595 /* sky_background_with_clouds.png in Resources */,
 				B06FDB33181F51D7003B3855 /* greenNoNoiseCupcakeBackGround6401036.png in Resources */,
 				B0DBD66A181DFD580059ED1C /* Default-568h@2x.png in Resources */,
 				B0DBD678181DFD580059ED1C /* Icon@2x.png in Resources */,
@@ -1315,6 +1337,7 @@
 				B0DBD700181DFD590059ED1C /* CCParticleSystemQuad.m in Sources */,
 				B0DBD6C3181DFD580059ED1C /* CCDrawNode.m in Sources */,
 				B0DBD755181DFD590059ED1C /* CCTransitionPageTurn.m in Sources */,
+				76D6185218A81533001115AC /* DataUtil.m in Sources */,
 				B0DBD686181DFD580059ED1C /* CCActionCatmullRom.m in Sources */,
 				B0DBD6FD181DFD590059ED1C /* CCParticleSystem.m in Sources */,
 				B0DBD752181DFD590059ED1C /* CCTransition.m in Sources */,
@@ -1329,7 +1352,6 @@
 				B0DBD683181DFD580059ED1C /* CCActionCamera.m in Sources */,
 				B0DBD7B5181DFD5A0059ED1C /* CDXPropertyModifierAction.m in Sources */,
 				B0DBD785181DFD590059ED1C /* CCArray.m in Sources */,
-				B06FDB47181F56DF003B3855 /* CupcakeView.m in Sources */,
 				B0DBD7E2181DFD5A0059ED1C /* plane.c in Sources */,
 				B0DBD78E181DFD590059ED1C /* CCProfiling.m in Sources */,
 				B0DBD725181DFD590059ED1C /* CCShaderCache.m in Sources */,
@@ -1354,6 +1376,7 @@
 				B0DBD68F181DFD580059ED1C /* CCActionGrid3D.m in Sources */,
 				B0DBD7D8181DFD5A0059ED1C /* mat4stack.c in Sources */,
 				B0DBD734181DFD590059ED1C /* CCSpriteFrameCache.m in Sources */,
+				76B7898118A6BBB40015F72B /* ItemScrollLayer.m in Sources */,
 				B0DBD6BD181DFD580059ED1C /* CCDirector.m in Sources */,
 				B0DBD6AD181DFD580059ED1C /* CCAtlasNode.m in Sources */,
 				B0DBD7F3181DFD5A0059ED1C /* main.m in Sources */,
@@ -1389,6 +1412,7 @@
 				B0DBD728181DFD590059ED1C /* ccShaders.m in Sources */,
 				B0DBD7F9181DFD5A0059ED1C /* GameLayer.m in Sources */,
 				B0DBD77E181DFD590059ED1C /* CCWindow.m in Sources */,
+				76D6184F18A7F5C1001115AC /* AnimationUtil.m in Sources */,
 				B0DBD75C181DFD590059ED1C /* cocos2d.m in Sources */,
 				B0DBD709181DFD590059ED1C /* CCProgressTimer.m in Sources */,
 				B0DBD6DE181DFD580059ED1C /* CCLabelTTF.m in Sources */,

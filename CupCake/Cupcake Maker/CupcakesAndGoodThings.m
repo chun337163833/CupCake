@@ -8,31 +8,12 @@
 
 
 #import "CupcakesAndGoodThings.h"
-
+#import "DataUtil.h"
 @implementation CupcakesAndGoodThings{
    // itemIndexes itemTypes;
 }
 
-
-//@synthesize delegate;
 static id instance = nil;
-
-+ (void)initialize {
-    if (self == [CupcakesAndGoodThings class]) {
-        instance = [[self alloc] init];
-        [instance setDefaultValues];
-    }
-
-}
-
-
-//@property (nonatomic, strong) NSTimer *clickerTimer;
-//@property (nonatomic, strong) NSTimer *girlScoutTimer;
-//@property (nonatomic, strong) NSTimer *grandmaTimer;
-//@property (nonatomic, strong) NSTimer *factoryTimer;
-//@property (nonatomic, strong) NSTimer *ninjaTimer;
-//@property (nonatomic, strong) NSTimer *nationTimer;
-//@property (nonatomic, strong) NSTimer *portalTimer;
 
 -(void)setDefaultValues{
     
@@ -49,11 +30,15 @@ static id instance = nil;
     
     
     self.timerArray = [[NSMutableArray alloc] initWithObjects:[NSObject alloc],[NSObject alloc],[NSObject alloc],[NSObject alloc],[NSObject alloc],[NSObject alloc],[NSObject alloc], nil];
-    self.cupcakesInSeconds = [[NSMutableArray alloc]init];
+    self.cupcakesPerSeconds = [[NSMutableArray alloc]init];
 }
 
 + (CupcakesAndGoodThings *) sharedInstance
 {
+    if (!instance) {
+        instance = [[self alloc] init];
+        [instance setDefaultValues];
+    }
     return instance;
 }
 
@@ -77,14 +62,14 @@ static id instance = nil;
 
 -(void) updateCupcakesPerMinute{
     [self updateItemCupcakeRate];
-    [self.cupcakesInSeconds addObject:[NSNumber numberWithInt:self.cupcakesMadeThisSecondByUser]];
+    [self.cupcakesPerSeconds addObject:[NSNumber numberWithInt:self.cupcakesMadeThisSecondByUser]];
     self.actualSpeed += self.cupcakesMadeThisSecondByUser;
     int timesUserClickedCupcakeButtonThisSecond = (self.cupcakesMadeThisSecondByUser/[(NSNumber*)self.increaseArray[clicker] floatValue]);
     self.cupcakesMadeThisSecondByUser =0;
     
-    if(self.cupcakesInSeconds.count > 10){
-        self.actualSpeed -= [(NSNumber *)self.cupcakesInSeconds[0] intValue];
-        [self.cupcakesInSeconds removeObjectAtIndex:0];
+    if(self.cupcakesPerSeconds.count > 10){
+        self.actualSpeed -= [(NSNumber *)self.cupcakesPerSeconds[0] intValue];
+        [self.cupcakesPerSeconds removeObjectAtIndex:0];
     }
     
     if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didUpdateCupcakeRateTo:withTheseManyClicksThisSecond:) ]){
@@ -94,13 +79,13 @@ static id instance = nil;
 }
 
 - (void)makeCupcakesForItem:(NSTimer*)timer {
-    int item = [[[timer userInfo] objectForKey:@"item"] integerValue];
+    int item = [[[timer userInfo] objectForKey:@"item"] intValue];
 
     int cupcakesCreated = [(NSNumber*)self.increaseArray[item] intValue] * self.globalMultiplier;
     [self increaseCupcakesBy:[NSNumber numberWithInt: cupcakesCreated] asUserClick:NO];
     if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:item:didCreateTheseManyCupcakes:theseManyTimes:) ]){
-        [self.animatedCountArray replaceObjectAtIndex:item withObject:[NSNumber numberWithInt:[(NSNumber*)self.animatedCountArray[clicker] intValue] +1]];
-        [self.delegate CupcakesAndGoodThings:self item:[NSNumber numberWithInt:item] didCreateTheseManyCupcakes:cupcakesCreated theseManyTimes:[(NSNumber*)self.animatedCountArray[clicker] intValue]];
+        [self.animatedCountArray replaceObjectAtIndex:item withObject:[NSNumber numberWithInt:[(NSNumber*)self.animatedCountArray[item] intValue] +1]];
+        [self.delegate CupcakesAndGoodThings:self item:item didCreateTheseManyCupcakes:[NSNumber numberWithInt:cupcakesCreated] theseManyTimes:[(NSNumber*)self.animatedCountArray[item] intValue]];
     }
 }
 
@@ -166,7 +151,7 @@ static id instance = nil;
     switch (item) {
         case clicker:
             costIncrease = (currentNumberOfItems % 5) == 0 ? 1 : 0;
-            increaseIncrease = (currentNumberOfItems % 5) == 0 ? -1 : 0;
+            increaseIncrease = (currentNumberOfItems % 5) == 0 ? 1 : 0;
             break;
         case girlScout:
             costIncrease = 1;
@@ -197,7 +182,7 @@ static id instance = nil;
     }
     
     NSNumber *currentCost = self.costArray[item];
-    [self.costArray replaceObjectAtIndex:item withObject:[NSNumber numberWithInt:currentCost.intValue + costIncrease]];
+    [self.costArray replaceObjectAtIndex:item withObject:[NSNumber numberWithInt:currentCost.intValue - costIncrease]];
 
     NSNumber *currentIncrease = self.increaseArray[item];
     [self.increaseArray replaceObjectAtIndex:item withObject:[NSNumber numberWithInt:currentIncrease.intValue + increaseIncrease]];
@@ -287,6 +272,27 @@ static id instance = nil;
     }
     
     return result;
+}
+
+-(NSArray *)getGameValues{
+    return [NSArray arrayWithObjects:self.cupcakes, self.costArray, self.itemArray, self.increaseArray, [NSNumber numberWithDouble:self.globalMultiplier], [NSNumber numberWithFloat:self.cupcakesRateByItem] ,nil];
+}
+
+-(void)setSavedValuesWithArray: (NSArray *) arrayOfValues{
+    if(arrayOfValues && arrayOfValues.count >0){
+        self.cupcakes = arrayOfValues[0];
+        self.costArray = arrayOfValues[1];
+        self.itemArray = arrayOfValues[2];
+        self.increaseArray = arrayOfValues[3];
+        self.globalMultiplier = [(NSNumber *) arrayOfValues[4] doubleValue];
+        self.cupcakesRateByItem = [(NSNumber *) arrayOfValues[5] floatValue];
+        for(int x =0; x < numObjects; x ++){
+            [self updateTimerForItem:x withItemCount:self.itemArray[x]];
+        }
+        if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThingsdidLoadState:) ]){
+            [self.delegate CupcakesAndGoodThingsdidLoadState:self];
+        }
+    }
 }
 
 @end
