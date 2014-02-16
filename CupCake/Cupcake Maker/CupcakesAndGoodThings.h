@@ -29,6 +29,7 @@ typedef enum {
 - (BOOL)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didUpdateCupcakeRateTo:(NSNumber*)cupcakeRate withTheseManyClicksThisSecond: (int) thisSecondClicks;
 - (void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance item:(items)purchaseItem didCreateTheseManyCupcakes:(NSNumber *)cupcakes theseManyTimes: (int) x;
 -(void)CupcakesAndGoodThingsdidLoadState:(CupcakesAndGoodThings *)instance;
+- (void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didPurchaseItem:(items)purchaseItem;
 @end
 
 
@@ -48,8 +49,8 @@ typedef enum {
 + (CupcakesAndGoodThings *) sharedInstance;
 -(void) increaseCupcakesBy:(NSNumber *)amount asUserClick: (BOOL) userClick;
 -(void) incrementItem: (items) item;
--(void)setSavedValuesWithArray: (NSArray *) arrayOfValues;
--(NSArray *)getGameValues;
+-(void)setSavedValuesWithArray: (NSMutableArray *) arrayOfValues;
+-(NSMutableArray *)getGameValues;
     
 @property (nonatomic,strong) NSMutableArray* animatedCountArray;
 

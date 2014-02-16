@@ -18,6 +18,7 @@
 		76B7898118A6BBB40015F72B /* ItemScrollLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 76B7898018A6BBB40015F72B /* ItemScrollLayer.m */; };
 		76D6184F18A7F5C1001115AC /* AnimationUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D6184E18A7F5C1001115AC /* AnimationUtil.m */; };
 		76D6185218A81533001115AC /* DataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 76D6185118A81533001115AC /* DataUtil.m */; };
+		76D6185418A88628001115AC /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76D6185318A88628001115AC /* iAd.framework */; };
 		B06FDB06181F51D7003B3855 /* 120120bluecupcale.png in Resources */ = {isa = PBXBuildFile; fileRef = B06FDACC181F51D7003B3855 /* 120120bluecupcale.png */; };
 		B06FDB07181F51D7003B3855 /* Abstract_Background_5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B06FDACD181F51D7003B3855 /* Abstract_Background_5.jpg */; };
 		B06FDB08181F51D7003B3855 /* blueCupcake.png in Resources */ = {isa = PBXBuildFile; fileRef = B06FDACE181F51D7003B3855 /* blueCupcake.png */; };
@@ -224,6 +225,7 @@
 		76D6184E18A7F5C1001115AC /* AnimationUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimationUtil.m; path = Utils/AnimationUtil.m; sourceTree = "<group>"; };
 		76D6185018A81532001115AC /* DataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataUtil.h; sourceTree = "<group>"; };
 		76D6185118A81533001115AC /* DataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataUtil.m; sourceTree = "<group>"; };
+		76D6185318A88628001115AC /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		B06FDACC181F51D7003B3855 /* 120120bluecupcale.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 120120bluecupcale.png; sourceTree = "<group>"; };
 		B06FDACD181F51D7003B3855 /* Abstract_Background_5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Abstract_Background_5.jpg; sourceTree = "<group>"; };
 		B06FDACE181F51D7003B3855 /* blueCupcake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueCupcake.png; sourceTree = "<group>"; };
@@ -565,6 +567,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76D6185418A88628001115AC /* iAd.framework in Frameworks */,
 				7691F89018308F1B00D7B07F /* MobileCoreServices.framework in Frameworks */,
 				B0DBD654181DFD580059ED1C /* OpenAL.framework in Frameworks */,
 				B0DBD65A181DFD580059ED1C /* UIKit.framework in Frameworks */,
@@ -762,6 +765,7 @@
 		B0DBD64E181DFD580059ED1C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				76D6185318A88628001115AC /* iAd.framework */,
 				7691F88F18308F1B00D7B07F /* MobileCoreServices.framework */,
 				B0DBD64F181DFD580059ED1C /* QuartzCore.framework */,
 				B0DBD651181DFD580059ED1C /* OpenGLES.framework */,
@@ -1485,7 +1489,7 @@
 				GCC_PREFIX_HEADER = CupCake/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"CupCake/libs/kazmath/include\"";
 				INFOPLIST_FILE = CupCake/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-lz",
@@ -1507,7 +1511,7 @@
 				GCC_PREFIX_HEADER = CupCake/Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"CupCake/libs/kazmath/include\"";
 				INFOPLIST_FILE = CupCake/Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-lz",

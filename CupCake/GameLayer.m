@@ -1,5 +1,5 @@
 //
-//  HelloWorldLayer.m
+//  GameLayer.m
 //  CupCake
 //
 //  Created by Saif Khan on 10/27/2013.
@@ -130,9 +130,6 @@
 
 -(void) menuButtonClicked:(CCMenuItem*)item {
     [[CupcakesAndGoodThings sharedInstance] incrementItem:item.tag];
-    [self incrementMenuViewItems:item.tag];
-    [self setCostAndCountValues:item.tag];
-
 }
 
 - (CCLayer*) createMenuLabels{
@@ -144,15 +141,15 @@
     for(int x = 0; x < numObjects; x ++){
         NSNumber *costOfItem = [[CupcakesAndGoodThings sharedInstance] costArray][x] ;
         
-        CCLabelTTF *itemLabel  = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d",-1 * costOfItem.intValue] fontName:@"Arial" fontSize:13.0f];
+        CCLabelTTF *itemLabel  = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d",-1 * costOfItem.intValue] fontName:@"Arial" fontSize:13.0f ];
         [itemLabel setPosition:ccp(40,260 - itemButtonSeperation * x)];
         [itemLabel setColor:(ccc3(255, 105, 180))];
         [self.itemCostLabels addObject:itemLabel];
         [items addChild:itemLabel];
-        
+       
         NSNumber *numberOfItems = [[CupcakesAndGoodThings sharedInstance] itemArray][x];
         NSString *countString = @"";
-        if(numberOfItems.intValue > 0)[NSString stringWithFormat:@"x%d", numberOfItems.intValue];
+        if(numberOfItems.intValue > 0)countString = [NSString stringWithFormat:@"x%d", numberOfItems.intValue];
         CCLabelTTF *numberOfItemsLabel  = [CCLabelTTF labelWithString:countString fontName:@"Arial" fontSize:13.0f];
         [numberOfItemsLabel setPosition:ccp(65,280 - itemButtonSeperation * x)];
         [numberOfItemsLabel setColor:(ccc3(45, 136, 206))];
@@ -179,7 +176,7 @@
     
     [cupcakeIcon setColor:(ccc3(255, 105, 180))];
     
-    [self.cupcakeCountLabel setPosition:ccp(160,535)];
+    [self.cupcakeCountLabel setPosition:ccp(160,533)];
     [self addChild:self.cupcakeCountLabel];
     [cupcakeIcon setPosition:ccp(110,535)];
 //    [self addChild:cupcakeIcon];
@@ -347,4 +344,41 @@
     }
 }
 
+-(void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didRejectPurchaseOf:(NSNumber *)itemPurchased{
+    UIAlertView* dialog = [[UIAlertView alloc] init];
+    [dialog setTitle:@"Not Nuff Cakes"];
+    [dialog setMessage:@"Why not tap the yummy cupcake for some more?"];
+    [dialog addButtonWithTitle:@"Ok!"];
+    [dialog show];
+}
+
+-(void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didPurchaseItem:(items)purchaseItem{
+    [self incrementMenuViewItems:purchaseItem];
+    [self setCostAndCountValues:purchaseItem];
+}
+
+#pragma mark touch listeners
+
+-(void) ccTouchesBegan:(NSSet*)touches withEvent:(id)event
+{
+    CCDirector* director = [CCDirector sharedDirector];
+    UITouch* touch = [touches anyObject];
+    CGPoint touchLocation = [touch locationInView:director.view];
+    CGPoint locationGL = [director convertToGL:touchLocation];
+//    [self checkMenuButtonTappedAtPoint: locationGL];
+}
+//
+//-(void) checkMenuButtonTappedAtPoint:(CGPoint) point{
+//    CGPoint locationInNodeSpace = [infoButton convertToNodeSpace:point];
+//    
+//    CGRect bbox = CGRectMake(self.men, 0,
+//                             infoButton.contentSize.width,
+//                             infoButton.contentSize.height);
+//    
+//    if (CGRectContainsPoint(bbox, locationInNodeSpace))
+//    {
+//        // code for when user touched infoButton sprite goes here ...
+//    }
+//
+//}
 @end

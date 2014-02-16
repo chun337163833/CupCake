@@ -12,15 +12,14 @@
 
 +(void) saveArrayToUserDefaults{
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    NSArray *values = [[CupcakesAndGoodThings sharedInstance] getGameValues];
+    NSMutableArray *values = [[CupcakesAndGoodThings sharedInstance] getGameValues];
     [prefs setValuesForKeysWithDictionary:[NSDictionary dictionaryWithObject:values forKey:@"values"]];
 }
 
 +(void) loadArrayFromUserDefaults{
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    NSArray *values = [prefs objectForKey:@"values"];
+    NSMutableArray *values = [prefs objectForKey:@"values"];
     [[CupcakesAndGoodThings sharedInstance] setSavedValuesWithArray:values];
-//    return [[prefs dictionaryRepresentation] objectForKey:@"values"];
 }
 
 @end
