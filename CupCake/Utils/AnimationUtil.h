@@ -11,6 +11,9 @@
 @class AnimationUtil;
 
 @interface AnimationUtil : NSObject;
-+(void) animateClickerForCupcakes:(NSNumber *) cupcakes atPostion: (CGPoint) point andAddItToLayer: (CCLayer *) layer;
++(void)makeIncreaseLabelForCupcakes:(NSNumber *) cupcakes atPostion: (CGPoint) point andAddItToLayer: (CCLayer *) layer;
++(void) animateClickerForButton: (CCMenuItemSprite *) button inMenu: (CCMenu *) menu withClicker: (CCSprite *) clicker withCupcakes:(NSNumber *) cupcakes inLayer: (CCLayer *) layer;
 +(void) makeLabelInvisible: (NSArray *)arrayOfObjects;
++(void) shakeButton: (NSArray*)arrayOfObjects;
++(void) makeLabelIncreaseForClickerWith: (NSArray *) arrayOfObjects;
 @end

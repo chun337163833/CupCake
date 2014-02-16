@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "ItemScrollLayer.h"
 #import "AnimationUtil.h"
+#include "SimpleAudioEngine.h"
 #define IPHONE_SCREEN_CENTER 160.0f
 #define CURSOR_RADIUS 75.0f
 #define CURSOR_SIZE 25.0f
@@ -21,7 +22,7 @@
 
 // HelloWorldLayer implementation
 @implementation GameLayer
-
+unsigned int cupcakeSoundId;
 // Helper class method that creates a Scene with the HelloWorldLayer as the only child.
 +(CCScene *) scene
 {
@@ -51,8 +52,7 @@
         [self setUpMenu];
         [self setUpCupcakeButton];
         [self setUpMisc];
-        [self setUpArrays];
-    }
+        [self setUpArrays];    }
 	return self;
 }
 
@@ -199,22 +199,26 @@
 
 -(void) cupcakeButtonPressed{
     NSNumber *clickerIncrease =[[CupcakesAndGoodThings sharedInstance] increaseArray][clicker];
-    
     [[CupcakesAndGoodThings sharedInstance] increaseCupcakesBy:[NSNumber numberWithInt: clickerIncrease.intValue] asUserClick:YES];
     NSLog(@"%d", [[[CupcakesAndGoodThings sharedInstance] cupcakes]intValue]);
     [self cycleCupcakeButton];
 }
 -(void) cycleCupcakeButton{
     
+    int buttonState = (int)floor((numberOfTimesCupcakeButtonWasPressed%40)/10);
     numberOfTimesCupcakeButtonWasPressed++;
-    CCSprite *normalImage = [CCSprite spriteWithFile:[NSString stringWithFormat:@"cupCakeClearBitten%d.png",(int)floor((numberOfTimesCupcakeButtonWasPressed%40)/10)]];
-    CCSprite *selectedImage = [CCSprite spriteWithFile:[NSString stringWithFormat:@"cupCakeClearBitten%d.png",(int)floor((numberOfTimesCupcakeButtonWasPressed%40)/10)] ];
+    CCSprite *normalImage = [CCSprite spriteWithFile:[NSString stringWithFormat:@"cupCakeClearBitten%d.png",buttonState]];
+    CCSprite *selectedImage = [CCSprite spriteWithFile:[NSString stringWithFormat:@"cupCakeClearBitten%d.png", buttonState] ];
+    
+    if(numberOfTimesCupcakeButtonWasPressed%10 == 0){
+        [[SimpleAudioEngine sharedEngine] stopEffect:cupcakeSoundId];
+        cupcakeSoundId = [[SimpleAudioEngine sharedEngine] playEffect:@"CupcakeEatingSounds.mp3"];
+    }
     [selectedImage setScale:0.8f];
     
     [self.cupcakeButton setNormalImage:normalImage];
     [self.cupcakeButton setSelectedImage:selectedImage];
     [selectedImage setPosition:normalImage.position];
-    
     [selectedImage setPosition:ccp(selectedImage.boundingBox.size.width/10, selectedImage.boundingBox.size.width/10)];
 
 }
@@ -302,19 +306,8 @@
 #pragma mark Animations
 -(void) animateClickerWithAlreadyIncreasedCount:(int)x withIncreaseAmount: (NSNumber *)cupcakes{
     CCSprite *cursor = self.cursorsAdded[x%self.cursorsAdded.count];
-    CGPoint cupcakePosition = CGPointMake(self.cupcakeMenu.position.x + self.cupcakeButton.position.x, self.cupcakeMenu.position.y + self.cupcakeButton.position.y);
-    CGPoint cursorHitMovement = CGPointMake((cupcakePosition.x - cursor.position.x) * 0.5, (cupcakePosition.y - cursor.position.y)*0.5);
     
-    CCMoveBy *slideToMiddle = [CCMoveBy actionWithDuration:1 position:ccp(cursorHitMovement.x, cursorHitMovement.y)];
-    CCMoveBy *slideBack = [CCMoveBy actionWithDuration:1 position:ccp(-cursorHitMovement.x, -cursorHitMovement.y)];
-    
-    CCSequence* sequence = [CCSequence actions: slideToMiddle,slideBack, nil];
-    
-    CCEaseInOut* ease = [CCEaseInOut actionWithAction:sequence rate:4];
-    [cursor runAction:ease];
-    
-    CGPoint increaseLabelPoint = CGPointMake(cupcakePosition.x - cursorHitMovement.x, cupcakePosition.y - cursorHitMovement.y);
-    [AnimationUtil animateClickerForCupcakes:cupcakes atPostion:increaseLabelPoint andAddItToLayer:self];
+    [AnimationUtil animateClickerForButton:self.cupcakeButton inMenu:self.cupcakeMenu withClicker:cursor withCupcakes:cupcakes inLayer:self];
 }
 
 #pragma mark Cupcake And Good Things Delegate

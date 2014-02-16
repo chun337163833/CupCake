@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		76191EA518839D7C00A33595 /* sky_background_with_clouds.png in Resources */ = {isa = PBXBuildFile; fileRef = 76191EA318839D7C00A33595 /* sky_background_with_clouds.png */; };
 		76191EA618839D7C00A33595 /* sky_without_clouds.png in Resources */ = {isa = PBXBuildFile; fileRef = 76191EA418839D7C00A33595 /* sky_without_clouds.png */; };
+		765A326D18B15CBE001D3AE8 /* CupcakeEatingSounds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 765A326C18B15CBE001D3AE8 /* CupcakeEatingSounds.mp3 */; };
 		7691F6FA1830842900D7B07F /* CCScrollLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7691F5AB1830842900D7B07F /* CCScrollLayer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		7691F6FB1830842900D7B07F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 7691F5AC1830842900D7B07F /* README.md */; };
 		7691F89018308F1B00D7B07F /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7691F88F18308F1B00D7B07F /* MobileCoreServices.framework */; };
@@ -212,6 +213,7 @@
 /* Begin PBXFileReference section */
 		76191EA318839D7C00A33595 /* sky_background_with_clouds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky_background_with_clouds.png; sourceTree = "<group>"; };
 		76191EA418839D7C00A33595 /* sky_without_clouds.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky_without_clouds.png; sourceTree = "<group>"; };
+		765A326C18B15CBE001D3AE8 /* CupcakeEatingSounds.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = CupcakeEatingSounds.mp3; sourceTree = "<group>"; };
 		7691F5AA1830842900D7B07F /* CCScrollLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScrollLayer.h; sourceTree = "<group>"; };
 		7691F5AB1830842900D7B07F /* CCScrollLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScrollLayer.m; sourceTree = "<group>"; };
 		7691F5AC1830842900D7B07F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -585,6 +587,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		765A326B18B15CBE001D3AE8 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				765A326C18B15CBE001D3AE8 /* CupcakeEatingSounds.mp3 */,
+			);
+			name = Sounds;
+			path = Resources/Sounds;
+			sourceTree = "<group>";
+		};
 		7691F5821830842700D7B07F /* cocos2d-iphone-extensions-master */ = {
 			isa = PBXGroup;
 			children = (
@@ -784,6 +795,7 @@
 		B0DBD663181DFD580059ED1C /* CupCakeWithCocos */ = {
 			isa = PBXGroup;
 			children = (
+				765A326B18B15CBE001D3AE8 /* Sounds */,
 				B06FDB41181F56DF003B3855 /* Cupcake Maker */,
 				B06FDACB181F51D7003B3855 /* Images */,
 				76D6184C18A7F585001115AC /* Utils */,
@@ -1270,6 +1282,7 @@
 				B06FDB09181F51D7003B3855 /* blueCupcake.xcf in Resources */,
 				B0DBD668181DFD580059ED1C /* Default@2x.png in Resources */,
 				B0DBD672181DFD580059ED1C /* Icon-Small.png in Resources */,
+				765A326D18B15CBE001D3AE8 /* CupcakeEatingSounds.mp3 in Resources */,
 				B06FDB18181F51D7003B3855 /* Abstract_Background_6.jpg in Resources */,
 				B06FDB24181F51D7003B3855 /* preview_big3.jpg in Resources */,
 				B06FDB06181F51D7003B3855 /* 120120bluecupcale.png in Resources */,

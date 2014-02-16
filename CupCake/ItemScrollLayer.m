@@ -38,7 +38,9 @@
     int lineNumber = ceil((x%alreadyAddedArray.count)/11);
     int maxLineNumber = ceil(alreadyAddedArray.count/11);
     if(lineNumber == maxLineNumber) animatedItemNumberOnLine = animatedItemNumberOnLine% (itemsOnLine+1);
-    [AnimationUtil animateClickerForCupcakes:cupcakes atPostion:CGPointMake(itemButtonOffsetX + animatedItemNumberOnLine * (itemSize + 2), itemButtonOffsetY - itemSize * (lineNumber %2) - itemButtonSeperation * purchaseItem) andAddItToLayer:self];
+//    [AnimationUtil animateClickerForCupcakes:cupcakes atPostion:CGPointMake(itemButtonOffsetX + animatedItemNumberOnLine * (itemSize + 2), itemButtonOffsetY - itemSize * (lineNumber %2) - itemButtonSeperation * purchaseItem) andAddItToLayer:self];
+    [AnimationUtil makeIncreaseLabelForCupcakes:cupcakes atPostion:CGPointMake(itemButtonOffsetX + animatedItemNumberOnLine * (itemSize + 2), itemButtonOffsetY - itemSize * (lineNumber %2) - itemButtonSeperation * purchaseItem) andAddItToLayer:self];
+    
 }
 
 @end

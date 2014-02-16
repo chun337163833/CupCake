@@ -17,7 +17,7 @@ static id instance = nil;
 
 -(void)setDefaultValues{
     
-    self.cupcakes = [NSNumber numberWithInt:0];
+    self.cupcakes = [NSNumber numberWithInt:10000000];
     self.globalMultiplier = 1;
     
     self.costArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:-15], [NSNumber numberWithInt:-80],[NSNumber numberWithInt:-400],[NSNumber numberWithInt:-3500],[NSNumber numberWithInt:-9000], [NSNumber numberWithInt:-100000], [NSNumber numberWithInt:-2000000],  nil];
@@ -288,8 +288,8 @@ static id instance = nil;
     if(arrayOfValues && arrayOfValues.count >0){
         self.cupcakes = arrayOfValues[0];
         self.costArray = arrayOfValues[1];
-        self.itemArray = (NSMutableArray*)arrayOfValues[2];
-        self.increaseArray = arrayOfValues[3];
+        self.itemArray = [(NSArray*)arrayOfValues[2] mutableCopy];
+        self.increaseArray = [(NSArray*)arrayOfValues[3] mutableCopy];
         self.globalMultiplier = [(NSNumber *) arrayOfValues[4] doubleValue];
         self.cupcakesRateByItem = [(NSNumber *) arrayOfValues[5] floatValue];
         for(int x =0; x < numObjects; x ++){
