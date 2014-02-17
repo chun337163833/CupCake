@@ -47,13 +47,15 @@ typedef enum {
 @property (nonatomic) double globalMultiplier;
 
 + (CupcakesAndGoodThings *) sharedInstance;
+-(void)invalidateAllTimers;
+-(void) restartAllTimers;
 -(void) increaseCupcakesBy:(NSNumber *)amount asUserClick: (BOOL) userClick;
 -(void) incrementItem: (items) item;
 -(void)setSavedValuesWithArray: (NSMutableArray *) arrayOfValues;
--(NSMutableArray *)getGameValues;
-    
-@property (nonatomic,strong) NSMutableArray* animatedCountArray;
+-(NSArray *)getGameValues;
 
+
+@property (nonatomic,strong) NSMutableArray* animatedCountArray;
 @property (nonatomic,strong) NSMutableArray* cupcakesPerSeconds;
 @property (nonatomic, strong) NSTimer *cupcakePerMinuteTimer;
 @property (nonatomic) float cupcakesMadeThisSecondByUser;

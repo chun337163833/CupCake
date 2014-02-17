@@ -12,7 +12,8 @@
 
 +(void) saveArrayToUserDefaults{
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *values = [[CupcakesAndGoodThings sharedInstance] getGameValues];
+    NSArray *values = [[CupcakesAndGoodThings sharedInstance] getGameValues];
+    [[CupcakesAndGoodThings sharedInstance] invalidateAllTimers];
     [prefs setValuesForKeysWithDictionary:[NSDictionary dictionaryWithObject:values forKey:@"values"]];
 }
 

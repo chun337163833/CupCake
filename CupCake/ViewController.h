@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 //#import "CupcakeView.h"
 //#import "CupcakesAndGoodThings.h"
+#import "GADInterstitial.h"
 #import "cocos2d.h"
 #import "GameLayer.h"
-@interface ViewController  : UIViewController <CCDirectorDelegate>{
-    
+@interface ViewController  : UIViewController <CCDirectorDelegate, GADInterstitialDelegate>{
+     GADInterstitial *interstitial_;
 }
 //- (IBAction)cupcakeButtonPressed:(id)sender;
 //- (IBAction)cursorButtonPressed:(id)sender;

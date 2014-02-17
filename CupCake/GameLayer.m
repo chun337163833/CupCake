@@ -233,6 +233,7 @@ unsigned int cupcakeSoundId;
 #pragma mark adding view items
 
 -(void)addCursor{
+    self.cupcakeButton.position = ccp(0, 160); //reset position of cupcake button before adding due to animations moving cupcake button.
     if(!self.cursorsAdded){
         self.cursorsAdded= [[NSMutableArray alloc] init];
     }
@@ -264,16 +265,16 @@ unsigned int cupcakeSoundId;
         return;
     }
     
-    NSMutableArray *listOfAlreadyAddedItems;
+    NSMutableArray *listOfAlreadyAddedItems = self.itemsAddedArray[itemIndex];
     NSNumber *numberOfItems;
     CCSprite *itemSprite;
     float customScale =1;
     
     numberOfItems = [[CupcakesAndGoodThings sharedInstance] itemArray][itemIndex];
-    if(numberOfItems.intValue <= 0) return;
+//    if(numberOfItems.intValue <= 0 || numberOfItems.intValue <= listOfAlreadyAddedItems.count) return;
     
     switch(itemIndex){
-           case girlScout:
+        case girlScout:
             customScale = 0.25f;
             itemSprite = [[CCSprite alloc] initWithFile:@"girlWithCupcake.png"];
             break;
@@ -300,7 +301,6 @@ unsigned int cupcakeSoundId;
         default:
             return;
     }
-    listOfAlreadyAddedItems = self.itemsAddedArray[itemIndex];
     [self.itemScrollLayer addSpriteObject:itemSprite withScale: customScale usingAlreadyAddedArray:listOfAlreadyAddedItems nextToButtonIndex:itemIndex];
 }
 #pragma mark Animations

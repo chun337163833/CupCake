@@ -21,8 +21,12 @@
     
 //    self.mainView = [[CupcakeView alloc] initWithFrame:self.view.frame];
 //    self.view = self.mainView;
-    [super viewDidLoad];
     
+    [super viewDidLoad];
+    interstitial_ = [[GADInterstitial alloc] init];
+    interstitial_.adUnitID = @"ca-app-pub-1900105952197422/2749568192";
+    [interstitial_ loadRequest:[GADRequest request]];
+
     CCDirector *director = [CCDirector sharedDirector];
     
     if([director isViewLoaded] == NO)
@@ -76,56 +80,18 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-//
-//- (IBAction)cupcakeButtonPressed:(id)sender {
-//    [[CupcakesAndGoodThings sharedInstance] increaseCupcakesBy:[NSNumber numberWithInt:[[CupcakesAndGoodThings sharedInstance] increaseOfClicker]]asUserClick:YES];
-//    [UIView animateWithDuration:0.1
-//                     animations:^{
-//                         self.mainView.cupcakeCount.alpha = 0.0f;
-//                     }
-//                     completion:^(BOOL finished){
-//                         self.mainView.cupcakeCount.alpha = 1.0f;
-//                     }
-//     ];
-//    [self.mainView cycleCupcakeButton];
-//}
-//
-//- (IBAction)cursorButtonPressed:(id)sender {
-//    [[CupcakesAndGoodThings sharedInstance] incrementClickers];
-//
-//    [self.mainView addCursor];
-//    [self.mainView.autoclickerPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfClicker]];
-//}
-//
-//- (IBAction)grandmaButtonPressed:(id)sender {
-//    [[CupcakesAndGoodThings sharedInstance] incrementGrandmas];
-//    [self.mainView addGrandma];
-//      [self.mainView.grandmaPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfGrandma]];
-//}
-//
-//- (IBAction)girlScoutButtonPressed:(id)sender {
-//    [[CupcakesAndGoodThings sharedInstance] incrementGirlScout];
-//    [self.mainView addGirlScout];
-//    [self.mainView.girlScoutPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfGirlScout]];
-//}
-//
-//- (IBAction)ninjaButtonPressed:(id)sender {
-//    [[CupcakesAndGoodThings sharedInstance] incrementNinjas];
-//    [self.mainView addNinja];
-//    [self.mainView.ninjaPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfNinja]];
-//}
-//
-//- (IBAction)factoryButtonPressed:(id)sender {
-//    [[CupcakesAndGoodThings sharedInstance] incrementFactories];
-//    [self.mainView addFactory];
-//    [self.mainView.factoryPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfFactory]];
-//}
-//- (IBAction)nationButtonPressed:(id)sender {
-//    [[CupcakesAndGoodThings sharedInstance] incrementNation];
-//    [self.mainView addNation];
-//    [self.mainView.nationPrice setText:[NSString stringWithFormat:@"🍥%d",-(int)[CupcakesAndGoodThings sharedInstance].costOfNation]];
-//    
-//}
+- (void)interstitial:(GADInterstitial *)interstitial
+didFailToReceiveAdWithError:(GADRequestError *)error {
+    [self launchGameDirector];
+}
+
+- (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
+    [interstitial presentFromRootViewController:self];
+}
+
+-(void) launchGameDirector{
+    
+}
 
 
 @end

@@ -103,15 +103,15 @@ static id instance = nil;
     NSNumber *itemCount = self.itemArray[item];
     [self increaseCupcakesBy:costOfItem asUserClick:NO];
     [self.itemArray replaceObjectAtIndex:item withObject:[NSNumber numberWithInt:itemCount.intValue + 1]];
-    itemCount = self.itemArray[item];
     [self updateCostValuesForItem:item];
-    [self updateTimerForItem:item withItemCount: itemCount];
+    [self updateTimerForItem:item];
     if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didPurchaseItem:) ]){
         [self.delegate CupcakesAndGoodThings:self didPurchaseItem:item];
     }
 }
 
--(void) updateTimerForItem: (items) item withItemCount: (NSNumber*) itemCount{
+-(void) updateTimerForItem: (items) item{
+    NSNumber *itemCount = self.itemArray[item];
     float defaultTime = 15.0f;
     switch (item) {
         case clicker:
@@ -195,9 +195,9 @@ static id instance = nil;
         NSTimer *objectTimer = self.timerArray[item];
         [objectTimer invalidate];
         return objectTimer;
+    }else{
+        return [[NSTimer alloc] init];
     }
-    
-    return [[NSTimer alloc] init];
 }
 
 #pragma helpers
@@ -208,7 +208,7 @@ static id instance = nil;
     NSNumber *countOfItems;
     self.cupcakesRateByItem=0;
     float defaultTime = 10.0f;
-    for(int x=0; x < self.increaseArray.count; x++){
+    for(int x=0; x < self.itemArray.count; x++){
         
         switch (x) {
             case clicker:
@@ -221,19 +221,19 @@ static id instance = nil;
                 break;
             case grandma:
                 defaultTime = 10.0f;
-                countOfItems = self.itemArray[grandma];
+                countOfItems = self.itemArray[x];
                 break;
             case ninja:
                 defaultTime = 1.0f;
-                countOfItems = self.itemArray[ninja];
+                countOfItems = self.itemArray[x];
                 break;
             case factory:
                 defaultTime = 15.0f;
-                countOfItems = self.itemArray[factory];
+                countOfItems = self.itemArray[x];
                 break;
             case nation:
                 defaultTime = 30.0f;
-                countOfItems = self.itemArray[nation];
+                countOfItems = self.itemArray[x];
                 break;
             case portal:
                 defaultTime = 60.0f;
@@ -280,25 +280,37 @@ static id instance = nil;
     return result;
 }
 
--(NSMutableArray *)getGameValues{
-    return [NSMutableArray arrayWithObjects:self.cupcakes, self.costArray, self.itemArray, self.increaseArray, [NSNumber numberWithDouble:self.globalMultiplier], [NSNumber numberWithFloat:self.cupcakesRateByItem] ,nil];
+-(NSArray *)getGameValues{
+    return [NSArray arrayWithObjects:self.cupcakes, self.costArray, self.itemArray, self.increaseArray, [NSNumber numberWithDouble:self.globalMultiplier], [NSNumber numberWithFloat:self.cupcakesRateByItem] ,nil];
 }
 
 -(void)setSavedValuesWithArray: (NSMutableArray *) arrayOfValues{
     if(arrayOfValues && arrayOfValues.count >0){
         self.cupcakes = arrayOfValues[0];
-        self.costArray = arrayOfValues[1];
+        self.costArray = [(NSArray*)arrayOfValues[1] mutableCopy];
         self.itemArray = [(NSArray*)arrayOfValues[2] mutableCopy];
         self.increaseArray = [(NSArray*)arrayOfValues[3] mutableCopy];
         self.globalMultiplier = [(NSNumber *) arrayOfValues[4] doubleValue];
         self.cupcakesRateByItem = [(NSNumber *) arrayOfValues[5] floatValue];
-        for(int x =0; x < numObjects; x ++){
-            [self updateTimerForItem:x withItemCount:self.itemArray[x]];
-        }
         if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThingsdidLoadState:) ]){
             [self.delegate CupcakesAndGoodThingsdidLoadState:self];
         }
     }
 }
 
+-(void)invalidateAllTimers{
+    for(int x = 0; x < numObjects; x++){
+        if(self.timerArray[x] && ([self.timerArray[x] isKindOfClass:[NSTimer class] ])){
+            NSTimer *objectTimer = self.timerArray[x];
+            [objectTimer invalidate];
+        }
+    }
+}
+
+
+-(void) restartAllTimers{
+    for(int x =0; x < numObjects; x ++){
+        [self updateTimerForItem:x];
+    }
+}
 @end

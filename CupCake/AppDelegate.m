@@ -59,7 +59,29 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	// Create the main window
+//    [self launchGameDirector];
+	return YES;
+}
+
+// getting a call, pause the game
+-(void) applicationWillResignActive:(UIApplication *)application
+{
+	if( [navController_ visibleViewController] == director_ )
+		[director_ pause];
+    [DataUtil saveArrayToUserDefaults];
+}
+
+// call got rejected
+-(void) applicationDidBecomeActive:(UIApplication *)application
+{
+	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];	
+	if( [navController_ visibleViewController] == director_ )
+		[director_ resume];
+    
+    [[CupcakesAndGoodThings sharedInstance] restartAllTimers];
+}
+-(void)launchGameDirector{
+    // Create the main window
 	window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	
 	
@@ -126,7 +148,7 @@
 	// Create a Navigation Controller with the Director
 	navController_ = [[MyNavigationController alloc] initWithRootViewController:director_];
 	navController_.navigationBarHidden = YES;
-
+    
 	// for rotation and other messages
 	[director_ setDelegate:navController_];
 	
@@ -135,27 +157,8 @@
 	
 	// make main window visible
 	[window_ makeKeyAndVisible];
-	
-	return YES;
-}
-
-// getting a call, pause the game
--(void) applicationWillResignActive:(UIApplication *)application
-{
-	if( [navController_ visibleViewController] == director_ )
-		[director_ pause];
-    [DataUtil saveArrayToUserDefaults];
-}
-
-// call got rejected
--(void) applicationDidBecomeActive:(UIApplication *)application
-{
-	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];	
-	if( [navController_ visibleViewController] == director_ )
-		[director_ resume];
     [DataUtil loadArrayFromUserDefaults];
 }
-
 -(void) applicationDidEnterBackground:(UIApplication*)application
 {
 	if( [navController_ visibleViewController] == director_ )

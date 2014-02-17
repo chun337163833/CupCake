@@ -19,7 +19,7 @@
     [itemToAdd setScale:customScale];
     
     [self addChild:itemToAdd];
-    [self setPosition:ccp(0,0)];
+//    [self setPosition:ccp(0,0)];
     [listOfAddedItems addObject:itemToAdd];
     NSLog(@"list %d", listOfAddedItems.count);
     //    CGRect worldBoundary = CGRectMake(0, 0, 360, 360);
