@@ -9,7 +9,6 @@
 #import "cocos2d.h"
 
 #import "AppDelegate.h"
-#import "IntroLayer.h"
 
 @implementation MyNavigationController
 
@@ -39,17 +38,6 @@
 	return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
-// This is needed for iOS4 and iOS5 in order to ensure
-// that the 1st scene has the correct dimensions
-// This is not needed on iOS6 and could be added to the application:didFinish...
--(void) directorDidReshapeProjection:(CCDirector*)director
-{
-	if(director.runningScene == nil) {
-		// Add the first scene to the stack. The director will draw it immediately into the framebuffer. (Animation is started automatically when the view is displayed.)
-		// and add the scene to the stack. The director will run it when it automatically when the view is displayed.
-		[director runWithScene: [IntroLayer scene]];
-	}
-}
 @end
 
 
@@ -59,8 +47,29 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    [self launchGameDirector];
+    [self launchGameDirector];
 	return YES;
+}
+
+
+- (void)interstitial:(GADInterstitial *)interstitial
+didFailToReceiveAdWithError:(GADRequestError *)error {
+    [[CCDirector sharedDirector] resume];
+    [[CupcakesAndGoodThings sharedInstance] restartAllTimers];
+    self.interstitial = NULL;
+}
+
+- (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
+    [[CCDirector sharedDirector] pause];
+    [interstitial presentFromRootViewController:navController_];
+    self.interstitial = NULL;
+}
+
+
+-(void)interstitialDidDismissScreen:(GADInterstitial *)ad{
+    [[CCDirector sharedDirector] resume];
+    [[CupcakesAndGoodThings sharedInstance] restartAllTimers];
+    self.interstitial = NULL;
 }
 
 // getting a call, pause the game
@@ -76,10 +85,21 @@
 {
 	[[CCDirector sharedDirector] setNextDeltaTimeZero:YES];	
 	if( [navController_ visibleViewController] == director_ )
-		[director_ resume];
+        [director_ resume];
     
-    [[CupcakesAndGoodThings sharedInstance] restartAllTimers];
+    [[CCDirector sharedDirector] pause];
+    [self loadInterstitial];
 }
+
+- (void)loadInterstitial
+{
+    self.interstitial = [[GADInterstitial alloc] init];
+    self.interstitial.adUnitID = @"ca-app-pub-1900105952197422/2749568192";
+    GADRequest *request = [GADRequest request];
+    [self.interstitial setDelegate:self];
+    [self.interstitial loadRequest:request];
+}
+
 -(void)launchGameDirector{
     // Create the main window
 	window_ = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -157,6 +177,8 @@
 	
 	// make main window visible
 	[window_ makeKeyAndVisible];
+    [[CCDirector sharedDirector] runWithScene:[GameLayer scene]];
+    [[CCDirector sharedDirector] setDisplayStats:false];
     [DataUtil loadArrayFromUserDefaults];
 }
 -(void) applicationDidEnterBackground:(UIApplication*)application

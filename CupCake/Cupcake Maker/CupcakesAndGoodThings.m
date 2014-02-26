@@ -17,7 +17,7 @@ static id instance = nil;
 
 -(void)setDefaultValues{
     
-    self.cupcakes = [NSNumber numberWithInt:10000000];
+    self.cupcakes = [NSNumber numberWithInt:0];
     self.globalMultiplier = 1;
     
     self.costArray = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithInt:-15], [NSNumber numberWithInt:-80],[NSNumber numberWithInt:-400],[NSNumber numberWithInt:-3500],[NSNumber numberWithInt:-9000], [NSNumber numberWithInt:-100000], [NSNumber numberWithInt:-2000000],  nil];
@@ -63,18 +63,17 @@ static id instance = nil;
 -(void) updateCupcakesPerMinute{
     [self updateItemCupcakeRate];
     [self.cupcakesPerSeconds addObject:[NSNumber numberWithInt:self.cupcakesMadeThisSecondByUser]];
-    self.actualSpeed += self.cupcakesMadeThisSecondByUser;
+    self.userCupcakeRate += self.cupcakesMadeThisSecondByUser;
     int timesUserClickedCupcakeButtonThisSecond = (self.cupcakesMadeThisSecondByUser/[(NSNumber*)self.increaseArray[clicker] floatValue]);
     self.cupcakesMadeThisSecondByUser =0;
     
     if(self.cupcakesPerSeconds.count > 10){
-        self.actualSpeed -= [(NSNumber *)self.cupcakesPerSeconds[0] intValue];
+        self.userCupcakeRate -= [(NSNumber *)self.cupcakesPerSeconds[0] intValue];
         [self.cupcakesPerSeconds removeObjectAtIndex:0];
     }
-    
+
     if([self.delegate respondsToSelector:@selector(CupcakesAndGoodThings:didUpdateCupcakeRateTo:withTheseManyClicksThisSecond:) ]){
-        BOOL wentUpALevel = [self.delegate CupcakesAndGoodThings:self didUpdateCupcakeRateTo:[NSNumber numberWithInt:self.actualSpeed + self.cupcakesRateByItem *10]withTheseManyClicksThisSecond:timesUserClickedCupcakeButtonThisSecond];
-        [self.delegate CupcakesAndGoodThings:self didUpdateCupcakeRateTo:[NSNumber numberWithFloat:self.actualSpeed] withTheseManyClicksThisSecond:self.actualSpeed];
+        [self.delegate CupcakesAndGoodThings:self didUpdateCupcakeRateTo:[NSNumber numberWithFloat:self.userCupcakeRate/10 + self.cupcakesRateByItem]withTheseManyClicksThisSecond:timesUserClickedCupcakeButtonThisSecond];
     }
 
 }
@@ -147,7 +146,7 @@ static id instance = nil;
 -(void) updateCostValuesForItem: (items) item{
     
     int costIncrease;
-    int increaseIncrease;
+//    int increaseIncrease;
     
     int currentNumberOfItems = [(NSNumber*)self.itemArray[item] intValue];
     
@@ -244,8 +243,8 @@ static id instance = nil;
                 break;
         }
 
-        timesPerSecond = defaultTime/ countOfItems.floatValue;
-        self.cupcakesRateByItem += countOfItems.floatValue * ([(NSNumber*)self.increaseArray[x] floatValue] * timesPerSecond);
+        timesPerSecond = (1.0f/ defaultTime)* countOfItems.floatValue;
+        self.cupcakesRateByItem += ([(NSNumber*)self.increaseArray[x] floatValue] * timesPerSecond);
         
     }
 }

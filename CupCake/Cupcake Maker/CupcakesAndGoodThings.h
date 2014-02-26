@@ -26,7 +26,7 @@ typedef enum {
 @optional
 - (void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didUpdateCupcakesTo:(NSNumber*)newCupcakeValue;
 - (void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didRejectPurchaseOf:(NSNumber*)itemPurchased;
-- (BOOL)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didUpdateCupcakeRateTo:(NSNumber*)cupcakeRate withTheseManyClicksThisSecond: (int) thisSecondClicks;
+- (void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didUpdateCupcakeRateTo:(NSNumber*)cupcakeRate withTheseManyClicksThisSecond: (int) thisSecondClicks;
 - (void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance item:(items)purchaseItem didCreateTheseManyCupcakes:(NSNumber *)cupcakes theseManyTimes: (int) x;
 -(void)CupcakesAndGoodThingsdidLoadState:(CupcakesAndGoodThings *)instance;
 - (void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didPurchaseItem:(items)purchaseItem;
@@ -60,6 +60,6 @@ typedef enum {
 @property (nonatomic, strong) NSTimer *cupcakePerMinuteTimer;
 @property (nonatomic) float cupcakesMadeThisSecondByUser;
 @property (nonatomic) float cupcakesRateByItem;
-@property (nonatomic) float actualSpeed;
+@property (nonatomic) float userCupcakeRate;
 
 @end

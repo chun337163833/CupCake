@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5D3BF279-7D0B-4FC1-9A36-3A38273CEE15</string>
+	<key>IDESourceControlProjectName</key>
+	<string>CupCake</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>BD4C79CC-A5B7-4EE4-9948-C6CABBCAD81D</key>
+		<string>https://github.com/Migoden/CupCake.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>CupCake.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>BD4C79CC-A5B7-4EE4-9948-C6CABBCAD81D</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Migoden/CupCake.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>BD4C79CC-A5B7-4EE4-9948-C6CABBCAD81D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>BD4C79CC-A5B7-4EE4-9948-C6CABBCAD81D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CupCake</string>
+		</dict>
+	</array>
+</dict>
+</plist>

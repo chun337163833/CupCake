@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "+[CupcakesAndGoodThings initialize]:CupcakesAndGoodThings.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[CupcakesAndGoodThings makeCupcakesForItem:]:CupcakesAndGoodThings.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.animatedCountArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[GameLayer addCursor]:GameLayer.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.cupcakeButton.position">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[CupcakesAndGoodThings incrementClickers]:CupcakesAndGoodThings.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[CupcakesAndGoodThings increaseCupcakesBy:asUserClick:]:CupcakesAndGoodThings.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.delegate">
+            </PersistentString>
+            <PersistentString
+               value = "self.cupcakes.intValue">
+            </PersistentString>
+            <PersistentString
+               value = " amount.intValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[CupcakesAndGoodThings invalidateTimerForItem:]:CupcakesAndGoodThings.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[NSTimer class]">
+            </PersistentString>
+            <PersistentString
+               value = "[self.timerArray[1] class]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[GameLayer cupcakeButtonPressed]:GameLayer.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[CupcakesAndGoodThings incrementItem:]:CupcakesAndGoodThings.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "itemCount.floatValue">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[GameLayer animateClickerWithAlreadyIncreasedCount:withIncreaseAmount:]:GameLayer.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[GameLayer CupcakesAndGoodThingsdidLoadState:]:GameLayer.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "[[CupcakesAndGoodThings sharedInstance] itemArray]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

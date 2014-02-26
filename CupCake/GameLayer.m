@@ -15,9 +15,11 @@
 #import "ItemScrollLayer.h"
 #import "AnimationUtil.h"
 #include "SimpleAudioEngine.h"
+#import "SWScrollView.h"
 #define IPHONE_SCREEN_CENTER 160.0f
 #define CURSOR_RADIUS 75.0f
 #define CURSOR_SIZE 25.0f
+#define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
 #pragma mark - HelloWorldLayer
 
 // HelloWorldLayer implementation
@@ -61,22 +63,27 @@ unsigned int cupcakeSoundId;
     
     CGSize winSize = [[CCDirector sharedDirector] winSize];
     
-    CCSprite *background = [CCSprite spriteWithFile:@"sky_without_clouds.png"];
-    [background setScale:3.0f];
-    background.position = ccp(winSize.width/2, 50+winSize.height/2);
+    CCSprite *background = [CCSprite spriteWithFile:@"SkyBackground600x1024.png"];
+    [background setScale:1.2f];
+    background.position = ccp(winSize.width/2, winSize.height/2);
     [self addChild:background];
     
-    CCSprite *background2 = [CCSprite spriteWithFile:@"sky_background_with_clouds.png"];
-    [background2 setScale:3.0f];
-    background2.position = ccp(winSize.width/2, 50+winSize.height/2);
-    [self addChild:background2];
+    //TODO add foreground for animations
+//    CCSprite *background2 = [CCSprite spriteWithFile:@"sky_background_with_clouds.png"];
+//    [background2 setScale:3.0f];
+//    background2.position = ccp(winSize.width/2, 50+winSize.height/2);
+//    [self addChild:background2];
     
 }
 
 
 -(void)setUpMenu{
     [CCMenuItemFont setFontSize:15];
-    
+    int increaseValue = 0;
+    if (!isiPhone5)
+    {
+        increaseValue = 45;
+    }
     CCMenuItem *clickerButton = [CCMenuItemFont itemWithString:@"Clicker" target:self selector:@selector(menuButtonClicked:)];
     clickerButton.position = ccp(0,200);
     clickerButton.tag = clicker;
@@ -111,7 +118,7 @@ unsigned int cupcakeSoundId;
     
     self.mainMenu = [CCMenu menuWithItems:clickerButton, girlScoutButton, grandmaButton, ninjaButton, factoryButton, planetButton, portalButton, nil];
     
-    [self.mainMenu setPosition:ccp(40, self.mainMenu.position.y -200)];
+    [self.mainMenu setPosition:ccp(40, self.mainMenu.position.y -200 + increaseValue)];
     [self addChild:self.mainMenu];
     [self addChild:[self createMenuLabels]];
 }
@@ -162,8 +169,8 @@ unsigned int cupcakeSoundId;
 -(void)setUpCupcakeButton{
     
     self.cupcakeButton = [CCMenuItemImage itemWithNormalImage:@"cupCakeClearBitten0.png" selectedImage:@"cupCakeClearBitten0.png" target:self selector:@selector(cupcakeButtonPressed)];
-    
-    self.cupcakeButton.position = ccp(0, 160);
+   
+    [self setCupcakeButtonsPosition];
     [self.cupcakeButton setScale:0.18];
     
     self.cupcakeMenu = [CCMenu menuWithItems:self.cupcakeButton, nil];
@@ -172,13 +179,23 @@ unsigned int cupcakeSoundId;
 
 -(void) setUpMisc{
     self.cupcakeCountLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d",[[[CupcakesAndGoodThings sharedInstance] cupcakes] intValue]] fontName:@"Arial" fontSize:30.0f];
-    CCLabelTTF *cupcakeIcon = [CCLabelTTF labelWithString:@"🍥" fontName:@"Arial" fontSize:30.0f];
-    
-    [cupcakeIcon setColor:(ccc3(255, 105, 180))];
-    
-    [self.cupcakeCountLabel setPosition:ccp(160,533)];
+    int decreaseAmount = 0;
+    if(!isiPhone5){
+        decreaseAmount = 90;
+    }
+    [self.cupcakeCountLabel setPosition:ccp(160,533 - decreaseAmount)];
     [self addChild:self.cupcakeCountLabel];
+    
+    CCLabelTTF *cupcakeIcon = [CCLabelTTF labelWithString:@"🍥" fontName:@"Arial" fontSize:30.0f];
+    [cupcakeIcon setColor:(ccc3(255, 105, 180))];
     [cupcakeIcon setPosition:ccp(110,535)];
+    
+    
+    self.cupcakeRateLabel = [CCLabelTTF labelWithString:@"" fontName:@"Arial" fontSize:15.0f];
+    [self.cupcakeRateLabel setPosition:ccp(IPHONE_SCREEN_CENTER,510  - decreaseAmount)];
+    [self.cupcakeRateLabel setColor:(ccc3(255, 105, 180))];
+    [self addChild:self.cupcakeRateLabel];
+
 //    [self addChild:cupcakeIcon];
 }
 
@@ -206,8 +223,7 @@ unsigned int cupcakeSoundId;
 -(void) cycleCupcakeButton{
     
     int buttonState = (int)floor((numberOfTimesCupcakeButtonWasPressed%40)/10);
-    numberOfTimesCupcakeButtonWasPressed++;
-    CCSprite *normalImage = [CCSprite spriteWithFile:[NSString stringWithFormat:@"cupCakeClearBitten%d.png",buttonState]];
+      CCSprite *normalImage = [CCSprite spriteWithFile:[NSString stringWithFormat:@"cupCakeClearBitten%d.png",buttonState]];
     CCSprite *selectedImage = [CCSprite spriteWithFile:[NSString stringWithFormat:@"cupCakeClearBitten%d.png", buttonState] ];
     
     if(numberOfTimesCupcakeButtonWasPressed%10 == 0){
@@ -220,20 +236,27 @@ unsigned int cupcakeSoundId;
     [self.cupcakeButton setSelectedImage:selectedImage];
     [selectedImage setPosition:normalImage.position];
     [selectedImage setPosition:ccp(selectedImage.boundingBox.size.width/10, selectedImage.boundingBox.size.width/10)];
-
+    numberOfTimesCupcakeButtonWasPressed++;
 }
 
 #pragma mark Item Scroll View
 -(void) setUpItemScrollView{
-    self.itemScrollLayer = [[ItemScrollLayer alloc] init];
+    
+    self.itemScrollLayer = [SWScrollView viewWithViewSize:CGSizeMake([[CCDirector sharedDirector] winSize].width, 285.0f)];
     [self addChild:self.itemScrollLayer];
 }
 
 
 #pragma mark adding view items
-
+-(void) setCupcakeButtonsPosition{
+    int decreaseAmount = 0;
+    if(!isiPhone5){
+        decreaseAmount = 35;
+    }
+    self.cupcakeButton.position = ccp(0, 140 - decreaseAmount);
+}
 -(void)addCursor{
-    self.cupcakeButton.position = ccp(0, 160); //reset position of cupcake button before adding due to animations moving cupcake button.
+    [self setCupcakeButtonsPosition];
     if(!self.cursorsAdded){
         self.cursorsAdded= [[NSMutableArray alloc] init];
     }
@@ -249,9 +272,10 @@ unsigned int cupcakeSoundId;
     for(int x = 0; x < clickers.intValue; x++ ){
         
         CCSprite *cursorImage = [[CCSprite alloc] initWithFile:@"cursor.png"];
-        
-        cursorImage.position = ccp( IPHONE_SCREEN_CENTER + (CURSOR_RADIUS *cos(radiansToIncease *x)),
-                                 [self.cupcakeButton convertToWorldSpace:CGPointZero].y + self.cupcakeButton.boundingBox.size.height/2 + CURSOR_RADIUS *sin(radiansToIncease * x));
+        int cursorRadius = CURSOR_RADIUS;
+        if(!isiPhone5)cursorRadius = cursorRadius - 10;
+        cursorImage.position = ccp( IPHONE_SCREEN_CENTER + (cursorRadius *cos(radiansToIncease *x)),
+                                 [self.cupcakeButton convertToWorldSpace:CGPointZero].y + self.cupcakeButton.boundingBox.size.height/2 + cursorRadius *sin(radiansToIncease * x));
         cursorImage.rotation = CC_RADIANS_TO_DEGREES(0.409 - (radiansToIncease *x) - M_PI/2);
         [cursorImage setScale:0.1f];
         [self addChild:cursorImage];
@@ -311,6 +335,9 @@ unsigned int cupcakeSoundId;
 }
 
 #pragma mark Cupcake And Good Things Delegate
+-(void)CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didUpdateCupcakeRateTo:(NSNumber *)cupcakeRate withTheseManyClicksThisSecond:(int)thisSecondClicks{
+      [self.cupcakeRateLabel setString:[NSString stringWithFormat:@"%.01f per second",[cupcakeRate floatValue]]];
+}
 - (void) CupcakesAndGoodThings:(CupcakesAndGoodThings *)instance didUpdateCupcakesTo:(NSNumber *)newCupcakeValue{
     [self.cupcakeCountLabel setString:[NSString stringWithFormat:@"%d",[[[CupcakesAndGoodThings sharedInstance] cupcakes] intValue]]];
 //    [self.cupcakeCountLabel setCString:[[NSString stringWithFormat:@"%d",[[[CupcakesAndGoodThings sharedInstance] cupcakes] intValue]] cStringUsingEncoding:NULL]];

@@ -27,8 +27,8 @@
 @property (nonatomic, weak) CCMenu *cupcakeMenu;
 @property (nonatomic, weak) CCMenu *mainMenu;
 @property (nonatomic, strong) ItemScrollLayer *itemScrollLayer;
-@property (nonatomic, weak) CCLabelBMFont *cupcakeCountLabel;;
-
+@property (nonatomic, weak) CCLabelBMFont *cupcakeCountLabel;
+@property (nonatomic, weak) CCLabelBMFont *cupcakeRateLabel;
 
 @property (strong, nonatomic) NSMutableArray *cursorsAdded;
 @property (strong, nonatomic) NSMutableArray *grandmasAdded;

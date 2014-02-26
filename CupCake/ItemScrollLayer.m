@@ -33,13 +33,11 @@
 
 -(void)displayCupcakeIncreasedForItem: (items) purchaseItem withAlreadyIncreasedCount: (int) x withAlreadyAddedArray: (NSMutableArray *) alreadyAddedArray byAmount: (NSNumber *) cupcakes{
 
-    int itemsOnLine = alreadyAddedArray.count % 11;
-    int animatedItemNumberOnLine = x% 11;
-    int lineNumber = ceil((x%alreadyAddedArray.count)/11);
-    int maxLineNumber = ceil(alreadyAddedArray.count/11);
-    if(lineNumber == maxLineNumber) animatedItemNumberOnLine = animatedItemNumberOnLine% (itemsOnLine+1);
-//    [AnimationUtil animateClickerForCupcakes:cupcakes atPostion:CGPointMake(itemButtonOffsetX + animatedItemNumberOnLine * (itemSize + 2), itemButtonOffsetY - itemSize * (lineNumber %2) - itemButtonSeperation * purchaseItem) andAddItToLayer:self];
-    [AnimationUtil makeIncreaseLabelForCupcakes:cupcakes atPostion:CGPointMake(itemButtonOffsetX + animatedItemNumberOnLine * (itemSize + 2), itemButtonOffsetY - itemSize * (lineNumber %2) - itemButtonSeperation * purchaseItem) andAddItToLayer:self];
+    int displayedItems = MIN(alreadyAddedArray.count, 22);
+    int animatedItemNumberOnLine = x % (displayedItems); //0-21
+    int isSecondLine = (animatedItemNumberOnLine >= 11)? 1:0; // 0 -10, 11 - 21
+    animatedItemNumberOnLine = animatedItemNumberOnLine - 11 * (isSecondLine);
+    [AnimationUtil makeIncreaseLabelForCupcakes:cupcakes atPostion:CGPointMake(itemButtonOffsetX + animatedItemNumberOnLine * (itemSize + 2), itemButtonOffsetY - itemSize * (isSecondLine) - itemButtonSeperation * purchaseItem) andAddItToLayer:self];
     
 }
 

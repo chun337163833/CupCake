@@ -12,9 +12,20 @@
 #import "GADInterstitial.h"
 #import "cocos2d.h"
 #import "GameLayer.h"
+
+@class GADInterstitial;
+@class GADRequest;
+
 @interface ViewController  : UIViewController <CCDirectorDelegate, GADInterstitialDelegate>{
-     GADInterstitial *interstitial_;
+    UIWindow *window_;
+    UINavigationController *navController_;
+    CCDirectorIOS	*__unsafe_unretained director_;							// weak ref
 }
+
+@property (nonatomic, strong) UIWindow *window;
+@property(nonatomic, strong) GADInterstitial *interstitial;
+@property (readonly) UINavigationController *navController;
+@property (unsafe_unretained, readonly) CCDirectorIOS *director;
 //- (IBAction)cupcakeButtonPressed:(id)sender;
 //- (IBAction)cursorButtonPressed:(id)sender;
 //- (IBAction)grandmaButtonPressed:(id)sender;
