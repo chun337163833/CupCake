@@ -9,13 +9,11 @@
 
 // Import the interfaces
 #import "GameLayer.h"
-#import "CCScrollLayer.h"
 // Needed to obtain the Navigation Controller
 #import "AppDelegate.h"
 #import "ItemScrollLayer.h"
 #import "AnimationUtil.h"
 #include "SimpleAudioEngine.h"
-#import "SWScrollView.h"
 #define IPHONE_SCREEN_CENTER 160.0f
 #define CURSOR_RADIUS 75.0f
 #define CURSOR_SIZE 25.0f
@@ -53,8 +51,10 @@ unsigned int cupcakeSoundId;
         [self setUpItemScrollView];
         [self setUpMenu];
         [self setUpCupcakeButton];
+        [self setUpUpgradesButton];
         [self setUpMisc];
-        [self setUpArrays];    }
+        [self setUpArrays];
+        [self setUpUpgradesLayer];  }
 	return self;
 }
 
@@ -177,6 +177,18 @@ unsigned int cupcakeSoundId;
     [self addChild:self.cupcakeMenu];
 }
 
+-(void)setUpUpgradesButton{
+    
+    self.upgradeButton = [CCMenuItemFont itemWithString:@"Upgrades" target:self selector:@selector(upgradesButtonPressed)];
+    CCMenu *menuForUpgradeButton = [CCMenu menuWithItems:self.upgradeButton, nil];
+    [self.upgradeButton setFontSize:20];
+    [self.upgradeButton setColor:ccc3(10, 0, 0)];
+    
+    [self.upgradeButton setPosition:ccp(0,0)];
+    [menuForUpgradeButton setPosition:ccp(270, 520 - [self getSmallScreenDecrease])];
+    [self addChild:menuForUpgradeButton];
+}
+
 -(void) setUpMisc{
     self.cupcakeCountLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d",[[[CupcakesAndGoodThings sharedInstance] cupcakes] intValue]] fontName:@"Arial" fontSize:30.0f];
     int decreaseAmount = 0;
@@ -195,8 +207,6 @@ unsigned int cupcakeSoundId;
     [self.cupcakeRateLabel setPosition:ccp(IPHONE_SCREEN_CENTER,510  - decreaseAmount)];
     [self.cupcakeRateLabel setColor:(ccc3(255, 105, 180))];
     [self addChild:self.cupcakeRateLabel];
-
-//    [self addChild:cupcakeIcon];
 }
 
 -(void) setUpArrays{
@@ -220,6 +230,7 @@ unsigned int cupcakeSoundId;
     NSLog(@"%d", [[[CupcakesAndGoodThings sharedInstance] cupcakes]intValue]);
     [self cycleCupcakeButton];
 }
+
 -(void) cycleCupcakeButton{
     
     int buttonState = (int)floor((numberOfTimesCupcakeButtonWasPressed%40)/10);
@@ -241,11 +252,38 @@ unsigned int cupcakeSoundId;
 
 #pragma mark Item Scroll View
 -(void) setUpItemScrollView{
-    
-    self.itemScrollLayer = [SWScrollView viewWithViewSize:CGSizeMake([[CCDirector sharedDirector] winSize].width, 285.0f)];
+    self.itemScrollLayer = [[ItemScrollLayer alloc] init];
     [self addChild:self.itemScrollLayer];
 }
 
+#pragma mark Upgrades Button
+
+-(void) upgradesButtonPressed{
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    [self.upgradesLayer runAction:[CCMoveBy actionWithDuration:0.3f position:ccp(0, winSize.height)]];
+    [self setButtonsEnabled:false];
+}
+
+-(void) setUpUpgradesLayer{
+    self.upgradesLayer = [[UpgradeMenu alloc] initWithReference:self];
+    [self addChild:self.upgradesLayer z:500000];
+}
+
+-(void) hideUpgradesLayer{
+    [self setButtonsEnabled:true];
+    CGSize winSize = [[CCDirector sharedDirector] winSize];
+    [self.upgradesLayer runAction:[CCMoveBy actionWithDuration:0.3f position:ccp(0, -winSize.height)]];
+}
+
+-(void)setButtonsEnabled:(BOOL)isEnabled{
+    self.cupcakeButton.isEnabled = isEnabled;
+    self.upgradeButton.isEnabled = isEnabled;
+    NSArray *menuButtons = self.mainMenu.children.getNSArray;
+    for(int x =0; x<self.mainMenu.children.count; x++){
+        CCMenuItem *button = (CCMenuItem*)menuButtons[x];
+        button.isEnabled = isEnabled;
+    }
+}
 
 #pragma mark adding view items
 -(void) setCupcakeButtonsPosition{
@@ -254,6 +292,14 @@ unsigned int cupcakeSoundId;
         decreaseAmount = 35;
     }
     self.cupcakeButton.position = ccp(0, 140 - decreaseAmount);
+}
+
+-(int)getSmallScreenDecrease{
+    if(!isiPhone5){
+        return 35;
+    }else{
+        return 0;
+    }
 }
 -(void)addCursor{
     [self setCupcakeButtonsPosition];

@@ -10,12 +10,11 @@
 #import "cocos2d.h"
 #import "CupcakesAndGoodThings.h"
 #import "AnimationUtil.h"
-#import "SWScrollView.h"
 static float itemSize = 20.0f;
 static float itemButtonOffsetY = 285.0f;
 static float itemButtonOffsetX = 85.0f;
 static float itemButtonSeperation = 40.0f;
-@interface ItemScrollLayer : SWScrollView{
+@interface ItemScrollLayer : CCLayer{
 }
 
 -(void) addSpriteObject:(CCSprite *) itemToAdd withScale:(float)customScale usingAlreadyAddedArray:(NSMutableArray *) listOfAddedItems nextToButtonIndex:(int) buttonIndex;

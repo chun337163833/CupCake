@@ -87,8 +87,8 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 	if( [navController_ visibleViewController] == director_ )
         [director_ resume];
     
-    [[CCDirector sharedDirector] pause];
-    [self loadInterstitial];
+//    [[CCDirector sharedDirector] pause];
+//    [self loadInterstitial];
 }
 
 - (void)loadInterstitial
